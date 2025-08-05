@@ -1,0 +1,24 @@
+
+<div class="topbar">
+ 
+  <button (click)="toggleMenu()" class="menu-button">☰ Menü</button>
+</div>
+
+
+<div class="sidebar" [class.open]="menuOpen">
+  <ul>
+    
+    <li><a routerLink="/dashboard" (click)="closeMenu()">Anasayfa</a></li>
+    <li><a routerLink="/dashboard/intern-list" (click)="closeMenu()">Stajyerler</a></li>
+    <li><a routerLink="/dashboard/intern-form" (click)="closeMenu()">Yeni Stajyer Ekle</a></li>
+    <li><a routerLink="/dashboard/assign-project" (click)="closeMenu()">Proje Atama</a></li>
+    <li><a routerLink="/dashboard/evaluations" (click)="closeMenu()">Değerlendirmeler</a></li>
+    <li><a routerLink="/dashboard/reports" (click)="closeMenu()">Raporlar</a></li>
+    <li><a routerLink="/dashboard/settings" (click)="closeMenu()">Ayarlar</a></li>
+  </ul>
+</div>
+
+
+<div class="content" (click)="menuOpen && closeMenu()">
+  <router-outlet></router-outlet>
+</div>

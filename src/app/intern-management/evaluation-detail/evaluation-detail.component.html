@@ -1,0 +1,36 @@
+<h2>Stajyer Değerlendirmesi (ID: {{ secilenStajyerId }})</h2>
+
+
+<label for="stajyerSelect">Stajyer Seç:</label>
+<select id="stajyerSelect" [(ngModel)]="secilenStajyerId" (change)="guncelleStajyerNotlar(); cizGrafik();">
+  <option *ngFor="let s of stajyerler" [value]="s.id">{{ s.ad }}</option>
+</select>
+
+
+<h3>Mevcut Notlar</h3>
+<ul>
+  <li *ngFor="let not of secilenStajyerNotlar">
+    {{ not.etiket }}: {{ not.puan }}
+  </li>
+</ul>
+
+
+<h3>Yeni Değerlendirme Ekle</h3>
+
+<label for="etiketSelect">Değerlendirme Kriteri:</label>
+<select id="etiketSelect" [(ngModel)]="yeniNot.etiket">
+  <option value="" disabled selected>Seçiniz</option>
+  <option *ngFor="let e of etikets" [value]="e">{{ e }}</option>
+</select>
+
+<br />
+
+<label for="puanInput">Puan (0-100):</label>
+<input id="puanInput" type="number" [(ngModel)]="yeniNot.puan" min="0" max="100" />
+
+<br />
+
+<button (click)="kaydet()">Kaydet</button>
+
+
+<canvas #grafikCanvas width="400" height="200"></canvas>

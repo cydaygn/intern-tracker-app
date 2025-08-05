@@ -1,0 +1,64 @@
+<h2>Proje Atama Modülü</h2>
+
+<form (submit)="ata(); $event.preventDefault()">
+  <label>
+    Stajyer Seçin:
+    <select [(ngModel)]="selectedInternId" name="intern" required>
+      <option [ngValue]="null" disabled selected>-- Stajyer seçiniz --</option>
+      <option *ngFor="let intern of interns" [value]="intern.id">
+        {{ intern.name }}
+      </option>
+    </select>
+  </label>
+
+  <br /><br />
+
+  <label>
+    Proje Türü Seçin:
+    <select [(ngModel)]="selectedProjectType" name="projectType" required>
+      <option [ngValue]="null" disabled selected>-- Proje türü seçiniz --</option>
+      <option *ngFor="let type of projectTypes" [value]="type">
+        {{ type }}
+      </option>
+    </select>
+  </label>
+
+  <br /><br />
+
+  <label>
+    Görev Açıklaması:
+    <textarea [(ngModel)]="taskDescription" name="taskDescription" rows="3" required></textarea>
+  </label>
+<div class="form-group">
+    <label for="pdfDosyasi">Proje  Dosyası</label>
+    <input type="file" id="pdfDosyasi" (change)="onFileSelected($event)" accept=".pdf" />
+  </div>
+  <br /><br />
+
+  <label>
+    Teslim Tarihi:
+    <input
+      type="date"
+      [(ngModel)]="dueDate"
+      name="dueDate"
+      required
+      [attr.min]="todayDate()"
+    />
+  </label>
+
+  <br /><br />
+
+  <label>
+    Durum:
+    <select [(ngModel)]="status" name="status">
+      <option value="Planned">Planlandı</option>
+      <option value="In Progress">Devam Ediyor</option>
+      <option value="Completed">Tamamlandı</option>
+    </select>
+  </label>
+
+  <br /><br />
+
+  <button type="submit">Projeyi Ata</button>
+  <button type="button" (click)="cancelAssign()">İptal</button>
+</form>

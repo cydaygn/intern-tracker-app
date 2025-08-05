@@ -1,0 +1,13 @@
+@import './_colors';
+
+.c-prot-light {
+  @each $name, $color in $colors {
+      #{$name}: nth($color, 1);
+  }
+}
+
+.c-prot-dark {
+  @each $name, $color in $colors {
+      #{$name}: nth($color, 2);
+  }
+}

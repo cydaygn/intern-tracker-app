@@ -1,0 +1,18 @@
+.error {
+  color: red;
+  margin: 10px 0;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+
+  th {
+    background-color: #f0f0f0;
+  }
+
+  th, td {
+    text-align: left;
+    padding: 8px;
+  }
+}

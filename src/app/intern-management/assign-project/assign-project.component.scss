@@ -1,0 +1,36 @@
+form {
+  
+  max-width: 400px;
+  margin: 20px auto;
+  display: flex;
+  flex-direction: column;
+
+  label {
+    display: block;
+    font-weight: 600;
+    color: #5c2d91;
+    margin-bottom: 8px;
+    font-size: 18px;
+  }
+
+  select, textarea, input[type="date"] {
+    width: 100%;
+    padding: 6px;
+    font-size: 14px;
+  }
+
+  textarea {
+    resize: vertical;
+  }
+
+  button {
+    
+    margin-top: 10px;
+    width: 120px;
+  }
+
+  button + button {
+    margin-left: 10px;
+    
+  }
+}

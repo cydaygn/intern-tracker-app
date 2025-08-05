@@ -1,0 +1,52 @@
+.container {
+  max-width: 700px;
+  margin: 40px auto;
+  padding: 24px;
+  background-color: #f9f9f9;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  text-align: center;
+
+  h1 {
+    font-size: 32px;
+    color: #5c2d91;
+    margin-bottom: 16px;
+  }
+
+  p {
+    font-size: 16px;
+    color: #444;
+    margin-bottom: 24px;
+  }
+
+  .button-group {
+    display: flex;
+    flex-direction: column; /* Dikey sıralama için */
+    gap: 12px;
+    align-items: center;
+    justify-content: center;
+
+    button {
+      width: 240px;
+      padding: 12px 20px;
+      font-size: 16px;
+      font-weight: 600;
+      background-color: #6200ea;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+
+      &:hover {
+        background-color: #4b00c4;
+        box-shadow: 0 4px 12px rgba(75, 0, 196, 0.5);
+      }
+
+      &:focus {
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(98, 0, 234, 0.6);
+      }
+    }
+  }
+}

@@ -1,0 +1,14 @@
+@import "@angular/material/prebuilt-themes/indigo-pink.css";
+.cdk-overlay-container {
+  z-index: 9999 !important;
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+
+}
+
+.mat-datepicker-panel {
+  z-index: 10000 !important;
+}

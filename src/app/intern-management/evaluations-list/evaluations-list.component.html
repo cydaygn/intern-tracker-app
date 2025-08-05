@@ -1,0 +1,7 @@
+<h2>Değerlendirmeler</h2>
+<ul>
+  <li *ngFor="let stajyer of stajyerler">
+    {{ stajyer.ad }}
+    <button (click)="detayGoster(stajyer.id)">Detay</button>
+  </li>
+</ul>

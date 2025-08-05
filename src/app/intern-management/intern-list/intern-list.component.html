@@ -1,0 +1,42 @@
+<div class="filter-panel">
+  <input type="text" placeholder="İsim" [(ngModel)]="filters.name" (input)="applyFilters()" />
+  <input type="text" placeholder="Okul" [(ngModel)]="filters.school" (input)="applyFilters()" />
+  
+  <select [(ngModel)]="filters.period" (change)="applyFilters()">
+    <option value="">Tümü</option>
+    <option value="2025">2025 Yaz Dönemi</option>
+    <option value="2024">2024 Güz Dönemi</option>
+  </select>
+  
+  <select [(ngModel)]="filters.projectStatus" (change)="applyFilters()">
+    <option value="">Tümü</option>
+    <option value="aktif">Aktif</option>
+    <option value="tamamlandı">Tamamlandı</option>
+    <option value="beklemede">Beklemede</option>
+  </select>
+  
+  <input type="text" placeholder="Etiket" [(ngModel)]="filters.tag" (input)="applyFilters()" />
+</div>
+
+<table>
+  <thead>
+    <tr>
+      <th>İsim</th>
+      <th>Okul</th>
+      <th>Bölüm</th>
+      <th>Başlangıç Tarihi</th>
+       <th>Bitiş Tarihi</th>
+      <th>Durum</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let intern of filteredInterns">
+      <td>{{ intern.ad }} {{ intern.soyad }}</td>
+      <td>{{ intern.okul }}</td>
+      <td>{{ intern.bolum }}</td>
+  <td>{{ intern.baslangicTarihi }}</td>
+       <td>{{ intern.bitisTarihi }}</td>
+      <td>{{ intern.durum }}</td>
+    </tr>
+  </tbody>
+</table>
