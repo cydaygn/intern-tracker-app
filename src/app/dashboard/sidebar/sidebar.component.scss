@@ -1,17 +1,47 @@
-.sidebar {
-  width: 200px;
-  background: #f0f0f0;
-  height: 100vh;
-  padding: 1rem;
-}
-.sidebar ul {
-  list-style-type: none;
+/* Liste ve butonların görünümü (aside kapsayıcısı dashboard.scss'te) */
+.sidebar-list {
+  list-style: none;
   padding: 0;
+  margin: 0;
 }
-.sidebar li {
-  margin: 10px 0;
-}
-.sidebar a {
+
+.sidebar-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  margin: 6px 0;
+  border-radius: 8px;
+  background: #2c3e50;
+  color: #fff;
   text-decoration: none;
-  color: #333;
+  font-weight: 500;
+  border: 1px solid #34495e;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, .25);
+  transition: all .25s ease;
+
+  mat-icon {
+    font-size: 20px;
+    color: #bdc3c7;
+    transition: color .25s ease;
+  }
+
+  &:hover {
+    background: #3b5370;
+    border-color: #4b8cff;
+    transform: translateX(4px);
+    box-shadow: 0 4px 8px rgba(75, 140, 255, .4);
+
+    mat-icon { color: #4b8cff; }
+  }
+
+  &.active-link {
+    background: #4b8cff;
+    border-color: #4b8cff;
+    color: #fff;
+    font-weight: 600;
+    box-shadow: 0 4px 8px rgba(75, 140, 255, .6);
+
+    mat-icon { color: #fff; }
+  }
 }

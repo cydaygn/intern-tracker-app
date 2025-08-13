@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 
 @Component({
   selector: 'app-dashboard',
@@ -6,13 +6,20 @@ import { Component } from '@angular/core';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent {
-  menuOpen = false;
 
-  toggleMenu() {
-    this.menuOpen = !this.menuOpen;
+  sidebarOpen = window.innerWidth >= 768;
+
+  toggleSidebar() {
+    this.sidebarOpen = !this.sidebarOpen;
   }
 
-  closeMenu() {
-    this.menuOpen = false;
+  closeSidebar() {
+    this.sidebarOpen = false;
+  }
+
+  
+  @HostListener('window:resize')
+  onResize() {
+ 
   }
 }

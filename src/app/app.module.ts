@@ -8,10 +8,12 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-
+import { CommonModule } from '@angular/common'; 
 import { FormsModule } from '@angular/forms';
+import { DialogComponent } from './shared/dialog/dialog.component';
 
 import { RouterModule } from '@angular/router';
+import { MatDialogModule } from '@angular/material/dialog';
 
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
@@ -25,6 +27,7 @@ import { OverlayModule } from '@angular/cdk/overlay';
 import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatTableModule } from '@angular/material/table';
+import { DatabaseService } from './services/database.service'; // Yeni eklenen
 
 import { DashboardComponent } from './dashboard/dashboard/dashboard.component';
 import { MainPageModule } from './main-page/main-page.module';  
@@ -47,12 +50,15 @@ export function HttpLoaderFactory(http: HttpClient) {
 @NgModule({
   declarations: [
     AppComponent,
-    
+    DialogComponent,
     
   ],
   imports: [
+    
+    CommonModule,
     BrowserModule,
     HttpClientModule,
+      MatDialogModule,
      DashboardModule,
     BrowserAnimationsModule,
     MainPageModule,       
@@ -82,6 +88,7 @@ export function HttpLoaderFactory(http: HttpClient) {
   ],
   providers: [
     DataService,
+    DatabaseService,
     ThemeService,
     {
       provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,

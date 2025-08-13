@@ -8,31 +8,45 @@ const routes: Routes = [
     path: '',
     component: MainPageComponent,
     children: [
-      
       {
         path: 'intern-list',
-        loadComponent: () => import('../intern-management/intern-list/intern-list.component').then(m => m.InternListComponent)
+        loadComponent: () =>
+          import('../intern-management/intern-list/intern-list.component').then(
+            (m) => m.InternListComponent
+          ),
       },
       {
         path: 'intern-form',
-        loadComponent: () => import('../intern-management/intern-form/intern-form.component').then(m => m.InternFormComponent)
+        loadComponent: () =>
+          import('../intern-management/intern-form/intern-form.component').then(
+            (m) => m.InternFormComponent
+          ),
       },
       {
         path: 'assign-project',
-        loadComponent: () => import('../intern-management/assign-project/assign-project.component').then(m => m.AssignProjectComponent)
-
+        loadComponent: () =>
+          import('../intern-management/assign-project/assign-project.component').then(
+            (m) => m.AssignProjectComponent
+          ),
+      },
+      {
+        path: 'evaluation-list',
+        loadComponent: () =>
+          import('../intern-management/evaluations-list/evaluations-list.component').then(
+            (m) => m.EvaluationsListComponent
+          ),
       },
       {
         path: '',
         redirectTo: 'intern-list',
-        pathMatch: 'full'
-      }
-    ]
-  }
+        pathMatch: 'full',
+      },
+    ],
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 export class MainPageRoutingModule {}

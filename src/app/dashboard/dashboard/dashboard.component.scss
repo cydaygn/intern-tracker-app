@@ -1,56 +1,38 @@
-.topbar {
-  background-color: #5e35b1;
-  color: white;
-  padding: 1rem;
+.dashboard-layout {
   display: flex;
-  align-items: center;
-
-  .menu-button {
-    background: none;
-    color: white;
-    border: none;
-    font-size: 1.5rem;
-    cursor: pointer;
-  }
+  position: relative;
+  margin-top: 56px; /* Navbar yüksekliği kadar boşluk */
 }
 
 .sidebar {
   position: fixed;
-  top: 0;
-  left: -250px;
-  width: 250px;
-  height: 100%;
-  background-color: #5e35b1;
-  color: white;
-  padding-top: 60px;
-  transition: left 0.3s ease-in-out;
-  z-index: 1000;
+  top: 56px; /* Navbar'ın altından başla */
+  left: -260px;
+  width: 240px;
+  height: calc(100% - 56px); /* Navbar yüksekliğini çıkar */
+  background: #1f2d3d;
+  transition: left 0.3s ease;
+  z-index: 999; /* Navbar'ın hemen altında */
+}
 
-  ul {
-    list-style: none;
-    padding: 0;
-
-    li {
-      margin: 1rem;
-      a {
-        color: white;
-        text-decoration: none;
-        font-size: 1.1rem;
-      }
-    }
-  }
-
-  &.open {
-    left: 0;
-  }
+.sidebar.open {
+  left: 0;
 }
 
 .content {
-  margin-left: 0;
-  transition: margin-left 0.3s ease-in-out;
-  padding: 1rem;
+  flex: 1;
+  padding: 16px;
+  background: #f5f6fa;
+  min-height: calc(100vh - 56px);
+  transition: margin-left 0.3s ease;
+}
 
-  @media screen and (min-width: 768px) {
+.dashboard-layout.sidenav-open .content {
+  margin-left: 240px;
+}
+
+@media (max-width: 767.98px) {
+  .dashboard-layout.sidenav-open .content {
     margin-left: 0;
   }
 }

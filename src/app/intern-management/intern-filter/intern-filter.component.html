@@ -1,39 +1,49 @@
 <div class="filter-panel">
   <h3>Filtreler</h3>
 
-  <mat-form-field appearance="fill">
+  <mat-form-field appearance="fill" class="full-width">
     <mat-label>İsim</mat-label>
-    <input matInput [(ngModel)]="isim" (ngModelChange)="filtrele()" placeholder="İsim ara">
+    <input
+      matInput
+      placeholder="İsim ara"
+      [(ngModel)]="nameFilter"
+      (ngModelChange)="onFilterChange()"
+    />
   </mat-form-field>
 
-  <mat-form-field appearance="fill">
+  <mat-form-field appearance="fill" class="full-width">
     <mat-label>Okul</mat-label>
-    <input matInput [(ngModel)]="okul" (ngModelChange)="filtrele()" placeholder="Okul ara">
+    <input
+      matInput
+      placeholder="Okul ara"
+      [(ngModel)]="schoolFilter"
+      (ngModelChange)="onFilterChange()"
+    />
   </mat-form-field>
 
-  <mat-form-field appearance="fill">
+  <mat-form-field appearance="fill" class="full-width">
     <mat-label>Dönem</mat-label>
-    <mat-select [(value)]="donem" (selectionChange)="filtrele()">
+    <mat-select [(value)]="periodFilter" (selectionChange)="onFilterChange()">
       <mat-option value="">Tümü</mat-option>
-      <mat-option *ngFor="let d of donemler" [value]="d">{{d}}</mat-option>
+      <mat-option *ngFor="let p of periods" [value]="p">{{ p }}</mat-option>
     </mat-select>
   </mat-form-field>
 
-  <mat-form-field appearance="fill">
+  <mat-form-field appearance="fill" class="full-width">
     <mat-label>Proje Durumu</mat-label>
-    <mat-select [(value)]="projeDurumu" (selectionChange)="filtrele()">
+    <mat-select [(value)]="projectStatusFilter" (selectionChange)="onFilterChange()">
       <mat-option value="">Tümü</mat-option>
-      <mat-option *ngFor="let p of projeDurumlari" [value]="p">{{p}}</mat-option>
+      <mat-option *ngFor="let status of projectStatuses" [value]="status">{{ status }}</mat-option>
     </mat-select>
   </mat-form-field>
 
-  <mat-form-field appearance="fill">
+  <mat-form-field appearance="fill" class="full-width">
     <mat-label>Etiket</mat-label>
-    <mat-select [(value)]="etiket" (selectionChange)="filtrele()">
+    <mat-select [(value)]="tagFilter" (selectionChange)="onFilterChange()">
       <mat-option value="">Tümü</mat-option>
-      <mat-option *ngFor="let e of etiketler" [value]="e">{{e}}</mat-option>
+      <mat-option *ngFor="let tag of tags" [value]="tag">{{ tag }}</mat-option>
     </mat-select>
   </mat-form-field>
 
-  <button mat-button color="warn" (click)="temizle()">Temizle</button>
+  <button mat-button color="warn" (click)="clearFilters()">Temizle</button>
 </div>

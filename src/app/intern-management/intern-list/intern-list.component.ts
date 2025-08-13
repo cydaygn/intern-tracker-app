@@ -1,29 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, NgZone } from '@angular/core';
 import { Router } from '@angular/router';
-import { Stajyer } from '../../models/stajyer.model';
-interface Intern {
-  ad: string;
-  soyad: string;
-  okul: string;
-  bolum: string;
-  baslangicTarihi: string;
-  bitisTarihi?: string;
-  durum: string;
-  eposta: string;
-  iletisim: string;
-}
+import { MatDialog } from '@angular/material/dialog';
+import { DialogComponent } from '../../shared/dialog/dialog.component';
+import { DatabaseService } from '../../services/database.service';
+import { Intern } from '../../models/intern.model';
 
 interface SavedView {
   name: string;
   filters: Filters;
 }
-
 interface Filters {
   name: string;
   school: string;
-  period: string;
-  projectStatus: string;
-  tag: string;
+  period: string;        
+  projectStatus: string;  
+  tag: string;            
 }
 
 @Component({
@@ -31,10 +22,10 @@ interface Filters {
   templateUrl: './intern-list.component.html',
   styleUrls: ['./intern-list.component.scss'],
 })
-export class InternListComponent implements OnInit {
+export class InternListComponent implements OnInit, OnDestroy {
   interns: Intern[] = [];
   filteredInterns: Intern[] = [];
-  tauriAPI: any;
+  isLoading = false;
 
   filters: Filters = {
     name: '',
@@ -46,100 +37,162 @@ export class InternListComponent implements OnInit {
 
   savedViews: SavedView[] = [];
 
-  constructor(private router: Router) {}
+  private refreshHandler = () => this.refreshList();
+
+  constructor(
+    private router: Router,
+    private dialog: MatDialog,
+    private dbService: DatabaseService,
+    private zone: NgZone
+  ) {}
 
   async ngOnInit(): Promise<void> {
+    window.addEventListener('force-refresh', this.refreshHandler);
     this.loadSavedViews();
-    await this.initializeTauri();
-    await this.loadInternsFromBackend();
-    await this.listenForNewInterns(); 
+    await this.loadInternsFromDatabase();
   }
 
-  private async initializeTauri() {
-    const { invoke } = await import('@tauri-apps/api/core');
-    const { listen } = await import('@tauri-apps/api/event');
-    this.tauriAPI = { invoke, listen };
-  }
-
-
-  private async listenForNewInterns() {
-    if (!this.tauriAPI?.listen) return;
-    await this.tauriAPI.listen('stajyer_eklendi', async (event: any) => {
-      console.log(' Yeni stajyer eklendi:', event.payload);
-      await this.loadInternsFromBackend();
-    });
+  ngOnDestroy(): void {
+    window.removeEventListener('force-refresh', this.refreshHandler);
   }
 
  
-  async loadInternsFromBackend() {
+  async loadInternsFromDatabase() {
+    this.isLoading = true;
     try {
-      const result: any = await this.tauriAPI.invoke('get_stajyerler');
-      if (result.success && result.data) {
-        this.interns = result.data;
+      await this.dbService.ensureInitialized();
+
+      let path = '';
+      let count = -1;
+      try {
+        [path, count] = await this.dbService.debugSnapshot();
+      } catch {}
+      if (count >= 0) console.log('[DB] path:', path, 'count:', count);
+
+      const result: Intern[] = await this.dbService.getInterns();
+
+      
+      this.zone.run(() => {
+        this.interns = result ?? [];
         this.filteredInterns = [...this.interns];
-        console.log(' Stajyer listesi alındı:', this.interns);
-      } else {
-        console.warn(' Liste boş geldi.');
-      }
+        this.applyFilters(); 
+      });
+
+      console.log('Stajyerler yüklendi:', this.interns.length);
     } catch (err) {
-      console.error(' Stajyer listesi alınamadı:', err);
+      console.error('Stajyerleri yükleme hatası:', err);
+      this.openDialog('Error', 'Failed to load intern list: ' + (err as any).message, 'error');
+    } finally {
+      this.isLoading = false;
     }
   }
 
- 
+async deleteIntern(intern: Intern) {
+  const ref = this.openDialog(
+    'Silme Onayı',
+    `"${intern.first_name} ${intern.last_name}" kaydını silmek istediğinize emin misiniz?`,
+    'confirm'
+  );
+
+  ref.afterClosed().subscribe(async (onay) => {
+    if (!onay || !intern.id) return;
+
+    try {
+      this.isLoading = true;
+      await this.dbService.deleteIntern(intern.id);
+    
+      this.openDialog('Bilgi', 'Stajyer başarıyla silindi.', 'info');
+   
+      await this.loadInternsFromDatabase();
+    } catch (e: any) {
+      console.error('Silme hatası:', e);
+      this.openDialog('Hata', 'Stajyer silinemedi: ' + (e?.message ?? e), 'error');
+    } finally {
+      this.isLoading = false;
+    }
+  });
+}
+
+
+  
   applyFilters() {
+    
+    const nameFilter   = (this.filters.name ?? '').trim().toLowerCase();
+    const schoolFilter = (this.filters.school ?? '').trim().toLowerCase();
+    const periodFilter = (this.filters.period ?? '').trim(); // 'YYYY' veya 'YYYY-MM' gibi TEXT
+    const statusFilter = (this.filters.projectStatus ?? '').trim().toLowerCase();
+
+    if (!nameFilter && !schoolFilter && !periodFilter && !statusFilter) {
+      this.filteredInterns = [...this.interns];
+      return;
+    }
+
     this.filteredInterns = this.interns.filter((intern) => {
-      return (
-        `${intern.ad} ${intern.soyad}`
-          .toLowerCase()
-          .includes(this.filters.name.toLowerCase()) &&
-        intern.okul
-          .toLowerCase()
-          .includes(this.filters.school.toLowerCase()) &&
-        (this.filters.period
-          ? intern.baslangicTarihi.includes(this.filters.period)
-          : true) &&
-        (this.filters.projectStatus
-          ? intern.durum === this.filters.projectStatus
-          : true)
-      );
+      const fullName = `${intern.first_name ?? ''} ${intern.last_name ?? ''}`.toLowerCase();
+      const school   = (intern.school ?? '').toLowerCase();
+      const start    = (intern.start_date ?? ''); // ISO bekleniyor: YYYY-MM-DD
+      const status   = (intern.status ?? '').toLowerCase();
+
+      const okName   = fullName.includes(nameFilter);
+      const okSchool = school.includes(schoolFilter);
+      const okPeriod = periodFilter ? start.includes(periodFilter) : true;
+      const okStatus = statusFilter ? status === statusFilter : true;
+
+      return okName && okSchool && okPeriod && okStatus;
     });
   }
-async getStajyerler(): Promise<Stajyer[]> {
-  const result = await this.tauriAPI.invoke('get_stajyerler');
-  return (result as { data: Stajyer[] }).data;  
-}
+
  
-  saveView() {
-    const viewName = prompt('Görünüme bir isim veriniz:');
-    if (viewName) {
-      this.savedViews.push({
-        name: viewName,
-        filters: { ...this.filters },
-      });
-      this.saveViewsToStorage();
-    }
+  async saveView() {
+    const viewName = 'Kaydedilen Görünüm ' + (this.savedViews.length + 1);
+    this.savedViews.push({ name: viewName, filters: { ...this.filters } });
+    this.saveViewsToStorage();
+    this.openDialog('View Saved', `View "${viewName}" saved successfully.`, 'info');
   }
-
-
   loadView(view: SavedView) {
     this.filters = { ...view.filters };
     this.applyFilters();
   }
-
   deleteView(view: SavedView) {
-    this.savedViews = this.savedViews.filter((v) => v !== view);
-    this.saveViewsToStorage();
+    const dialogRef = this.openDialog(
+      'Silmeyi Onayla',
+      `Görünümünü silmek istediğinizden emin misiniz? "${view.name}"?`,
+      'confirm'
+    );
+    dialogRef.afterClosed().subscribe((confirmed) => {
+      if (confirmed) {
+        this.savedViews = this.savedViews.filter((v) => v !== view);
+        this.saveViewsToStorage();
+        this.openDialog('Deleted', 'The view has been deleted.', 'info');
+      }
+    });
   }
-
   saveViewsToStorage() {
-    localStorage.setItem('savedInternViews', JSON.stringify(this.savedViews));
+    try {
+      localStorage.setItem('savedInternViews', JSON.stringify(this.savedViews));
+    } catch (e) {
+      console.error('Failed to save views to localStorage', e);
+    }
+  }
+  loadSavedViews() {
+    try {
+      const stored = localStorage.getItem('savedInternViews');
+      if (stored) this.savedViews = JSON.parse(stored);
+    } catch (e) {
+      console.error('Failed to load saved views from localStorage', e);
+    }
   }
 
-  loadSavedViews() {
-    const stored = localStorage.getItem('savedInternViews');
-    if (stored) {
-      this.savedViews = JSON.parse(stored);
-    }
+ 
+  openDialog(title: string, message: string, type: 'info' | 'error' | 'confirm') {
+    return this.dialog.open(DialogComponent, {
+      width: '400px',
+      data: { title, message, type },
+    });
+  }
+
+  
+  async refreshList() {
+    await this.loadInternsFromDatabase();
   }
 }

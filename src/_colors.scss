@@ -1,6 +1,22 @@
-$cp-white: #fff;
-$cp-gray-750: #2f2f2f;
+/* Tek yerde palet + ölçüler */
+$brand1: #5e35b1;
+$brand2: #7c4dff;
 
-$colors: (
-    --background-color: ($cp-white, $cp-gray-750),
-);
+$bg-light: #f6f7fb;
+$text-light: #1e2230;
+$muted-light: #6a6f85;
+
+$bg-dark: #0b0d1a;
+$text-dark: #e9e9f1;
+$muted-dark: #a8a8c2;
+
+$radius: 14px;
+$radius-sm: 10px;
+$space: 16px;
+$space-lg: 24px;
+
+$shadow-light: 0 10px 30px rgba(20,20,40,.12);
+$shadow-dark: 0 10px 30px rgba(0,0,0,.35);
+
+$border-light: rgba(17,20,39,.08);
+$border-dark: rgba(255,255,255,.12);

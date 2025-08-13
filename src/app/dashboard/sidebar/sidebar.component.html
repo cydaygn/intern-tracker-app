@@ -1,8 +1,57 @@
-<aside class="sidebar">
-  <ul>
-    <li><a routerLink="/main-page">Ana Sayfa</a></li>
-    <li><a routerLink="/intern-management/add">Stajyer Ekle</a></li>
-    <li><a routerLink="/intern-management/list">Stajyer Listesi</a></li>
-    <li><a routerLink="/intern-management/assign">Proje Ata</a></li>
-  </ul>
-</aside>
+<ul class="sidebar-list">
+  <li>
+    <a class="sidebar-btn"
+       routerLink="/dashboard"
+       [routerLinkActiveOptions]="{ exact: true }"
+       routerLinkActive="active-link"
+       (click)="onLinkClick()">
+      <mat-icon>home</mat-icon><span>Anasayfa</span>
+    </a>
+  </li>
+
+  <li>
+    <a class="sidebar-btn"
+       routerLink="/dashboard/intern-list"
+       routerLinkActive="active-link"
+       (click)="onLinkClick()">
+      <mat-icon>group</mat-icon><span>Stajyerler</span>
+    </a>
+  </li>
+
+  <li>
+    <a class="sidebar-btn"
+       routerLink="/dashboard/intern-form"
+       routerLinkActive="active-link"
+       (click)="onLinkClick()">
+      <mat-icon>person_add</mat-icon><span>Yeni Stajyer Ekle</span>
+    </a>
+  </li>
+
+  <li>
+    <a class="sidebar-btn"
+       routerLink="/dashboard/assign-project"
+       routerLinkActive="active-link"
+       (click)="onLinkClick()">
+      <mat-icon>assignment</mat-icon><span>Proje Atama</span>
+    </a>
+  </li>
+
+  <li>
+    <a class="sidebar-btn"
+       routerLink="/dashboard/evaluations"
+       routerLinkActive="active-link"
+       (click)="onLinkClick()">
+      <mat-icon>star_rate</mat-icon><span>Değerlendirmeler</span>
+    </a>
+  </li>
+
+  
+  <li>
+    <a class="sidebar-btn"
+       routerLink="/dashboard/settings"
+       routerLinkActive="active-link"
+       (click)="onLinkClick()">
+      <mat-icon>settings</mat-icon><span>Ayarlar</span>
+    </a>
+  </li>
+</ul>

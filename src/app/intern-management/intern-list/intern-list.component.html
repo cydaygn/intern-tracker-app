@@ -27,16 +27,22 @@
       <th>Başlangıç Tarihi</th>
        <th>Bitiş Tarihi</th>
       <th>Durum</th>
+      <th>İşlem</th>
     </tr>
   </thead>
   <tbody>
     <tr *ngFor="let intern of filteredInterns">
-      <td>{{ intern.ad }} {{ intern.soyad }}</td>
-      <td>{{ intern.okul }}</td>
-      <td>{{ intern.bolum }}</td>
-  <td>{{ intern.baslangicTarihi }}</td>
-       <td>{{ intern.bitisTarihi }}</td>
-      <td>{{ intern.durum }}</td>
+      <td>{{ intern.first_name }} {{ intern.last_name }}</td>
+      <td>{{ intern.school }}</td>
+      <td>{{ intern.department }}</td>
+      <td>{{ intern.start_date }}</td>
+      <td>{{ intern.end_date }}</td>
+      <td>{{ intern.status }}</td>
+    <button mat-icon-button color="warn" (click)="deleteIntern(intern)" aria-label="Sil">
+  <mat-icon>delete</mat-icon>
+</button>
+
     </tr>
   </tbody>
+ 
 </table>

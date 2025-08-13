@@ -1,162 +1,144 @@
 <div class="form-container">
   <h2>Yeni Stajyer Ekle</h2>
+
   <button mat-button (click)="goBack()" aria-label="Geri">
     <mat-icon>arrow_back</mat-icon>
     Geri
   </button>
+
   
-  <form #stajyerForm="ngForm" (ngSubmit)="ekle()" novalidate>
-    
+  <form #internForm="ngForm" (submit)="onFormSubmit($event)" novalidate>
     <div class="form-group">
       <label class="field-label">Ad *</label>
       <mat-form-field appearance="fill" class="full-width">
-        <input matInput name="ad" [(ngModel)]="yeniStajyer.ad" #ad="ngModel" required />
+        <input matInput name="firstName" [(ngModel)]="intern.first_name" #firstName="ngModel" required />
       </mat-form-field>
-      <div *ngIf="ad.invalid && ad.touched" class="error-msg">Ad zorunludur.</div>
+      <div *ngIf="firstName.invalid && firstName.touched" class="error-msg">Ad zorunludur.</div>
     </div>
 
- 
     <div class="form-group">
       <label class="field-label">Soyad *</label>
       <mat-form-field appearance="fill" class="full-width">
-        <input matInput name="soyad" [(ngModel)]="yeniStajyer.soyad" #soyad="ngModel" required />
+        <input matInput name="lastName" [(ngModel)]="intern.last_name" #lastName="ngModel" required />
       </mat-form-field>
-      <div *ngIf="soyad.invalid && soyad.touched" class="error-msg">Soyad zorunludur.</div>
+      <div *ngIf="lastName.invalid && lastName.touched" class="error-msg">Soyad zorunludur.</div>
     </div>
 
- 
     <div class="form-group">
       <label class="field-label">Okul *</label>
       <mat-form-field appearance="fill" class="full-width">
-        <input matInput name="okul" [(ngModel)]="yeniStajyer.okul" #okul="ngModel" required />
+        <input matInput name="school" [(ngModel)]="intern.school" #school="ngModel" required />
       </mat-form-field>
-      <div *ngIf="okul.invalid && okul.touched" class="error-msg">Okul zorunludur.</div>
+      <div *ngIf="school.invalid && school.touched" class="error-msg">Okul zorunludur.</div>
     </div>
 
-  
     <div class="form-group">
       <label class="field-label">Bölüm</label>
       <mat-form-field appearance="fill" class="full-width">
-        <input matInput name="bolum" [(ngModel)]="yeniStajyer.bolum" />
+        <input matInput name="department" [(ngModel)]="intern.department" />
       </mat-form-field>
     </div>
 
-   
     <div class="form-group">
       <label class="field-label">Durum *</label>
-      <select name="durum" [(ngModel)]="yeniStajyer.durum" #durum="ngModel" required>
+      <select name="status" [(ngModel)]="intern.status" #status="ngModel" required>
         <option value="aktif">Aktif</option>
         <option value="pasif">Pasif</option>
         <option value="tamamlandı">Tamamlandı</option>
       </select>
-      <div *ngIf="durum.invalid && durum.touched" class="error-msg">
-        Durum seçimi zorunludur.
-      </div>
+      <div *ngIf="status.invalid && status.touched" class="error-msg">Durum seçimi zorunludur.</div>
     </div>
 
     <div class="form-group">
       <label class="field-label">Telefon *</label>
       <mat-form-field appearance="fill" class="full-width">
-        <input
-          matInput
-          name="telefon"
-          [(ngModel)]="yeniStajyer.iletisim"
-          #telefon="ngModel"
-          required
-          pattern="^[0-9]+$"
-        />
+        <input matInput name="contact" [(ngModel)]="intern.contact" #contact="ngModel" required pattern="^[0-9]+$" />
       </mat-form-field>
-      <div *ngIf="telefon.invalid && telefon.touched" class="error-msg">
-        Telefon numarası sadece rakamlardan oluşmalıdır.
-      </div>
+      <div *ngIf="contact.invalid && contact.touched" class="error-msg">Telefon numarası sadece rakamlardan oluşmalıdır.</div>
     </div>
 
-   
     <div class="form-group">
       <label class="field-label">E-posta *</label>
       <mat-form-field appearance="fill" class="full-width">
-        <input
-          matInput
-          type="email"
-          name="eposta"
-          [(ngModel)]="yeniStajyer.eposta"
-          #eposta="ngModel"
-          required
-          email
-        />
+        <input matInput type="email" name="email" [(ngModel)]="intern.email" #email="ngModel" required email />
       </mat-form-field>
-      <div *ngIf="eposta.invalid && eposta.touched" class="error-msg">
-        Geçerli bir e-posta giriniz.
-      </div>
+      <div *ngIf="email.invalid && email.touched" class="error-msg">Geçerli bir e-posta giriniz.</div>
     </div>
 
-   
     <div class="date-row">
       <mat-form-field appearance="fill" floatLabel="always" class="date-field">
         <label class="field-label">Başlangıç Tarihi *</label>
-        <input
-          matInput
-          [matDatepicker]="pickerBaslangic"
-          name="baslangicTarihi"
-          [(ngModel)]="yeniStajyer.baslangicTarihi"
-          #baslangicTarihi="ngModel"
-          required
-        />
-        <mat-datepicker-toggle matSuffix [for]="pickerBaslangic"></mat-datepicker-toggle>
-        <mat-datepicker #pickerBaslangic></mat-datepicker>
-        <div *ngIf="baslangicTarihi.invalid && baslangicTarihi.touched" class="error-msg">
-          Başlangıç tarihi zorunludur.
-        </div>
+        <input matInput [matDatepicker]="pickerStart" name="startDate" [(ngModel)]="intern.start_date" #startDate="ngModel" required />
+        <mat-datepicker-toggle matSuffix [for]="pickerStart"></mat-datepicker-toggle>
+        <mat-datepicker #pickerStart></mat-datepicker>
+        <div *ngIf="startDate.invalid && startDate.touched" class="error-msg">Başlangıç tarihi zorunludur.</div>
       </mat-form-field>
 
       <mat-form-field appearance="fill" floatLabel="always" class="date-field">
         <label class="field-label">Bitiş Tarihi</label>
-        <input
-          matInput
-          [matDatepicker]="pickerBitis"
-          name="bitisTarihi"
-          [(ngModel)]="yeniStajyer.bitisTarihi"
-        />
-        <mat-datepicker-toggle matSuffix [for]="pickerBitis"></mat-datepicker-toggle>
-        <mat-datepicker #pickerBitis></mat-datepicker>
+        <input matInput [matDatepicker]="pickerEnd" name="endDate" [(ngModel)]="intern.end_date" />
+        <mat-datepicker-toggle matSuffix [for]="pickerEnd"></mat-datepicker-toggle>
+        <mat-datepicker #pickerEnd></mat-datepicker>
       </mat-form-field>
     </div>
 
-    <div class="form-group">
-  <label>Fotoğraf Yükle</label>
-  <button mat-raised-button color="accent" type="button" (click)="fotoButtonClick()">
-    Fotoğraf Seç
-  </button>
-  <input
-    #fotoInput
-    type="file"
-    accept="image/*"
-    style="display:none"
-    (change)="onPhotoSelected($event)"
-  />
-  <span *ngIf="yeniStajyer.fotografDosyasi">
-    {{ yeniStajyer.fotografDosyasi.name }}
-  </span>
-</div>
 
 <div class="form-group">
-  <label>CV Yükle (PDF)</label>
-  <button mat-raised-button color="accent" type="button" (click)="cvButtonClick()">
-    CV Seç
-  </button>
-  <input
-    #cvInput
-    type="file"
-    accept=".pdf,.doc,.docx"
-    style="display:none"
-    (change)="onFileSelected($event)"
-  />
-  <span *ngIf="yeniStajyer.cvDosyasi">
-    {{ yeniStajyer.cvDosyasi.name }}
-  </span>
-</div>
+  <label class="field-label">Fotoğraf Yükle</label>
 
+  <div class="file-select-wrapper">
+    <button mat-raised-button color="accent" type="button" (click)="openPhotoWithTauri()">
+      Fotoğraf Seç
+    </button>
 
- <div class="button-group">
-    <button mat-raised-button color="primary" (click)="ekle()">Ekle</button>
+    <span *ngIf="intern.photoFile" class="file-badge" [title]="intern.photoFile.name">
+      {{ intern.photoFile.name }}
+    </span>
+
+    <button
+      *ngIf="intern.photoFile"
+      type="button"
+      class="btn-clear"
+      aria-label="Fotoğrafı kaldır"
+      (click)="clearPhoto()"
+    >
+      ×
+    </button>
   </div>
+
+  <div class="photo-preview" *ngIf="photoPreviewUrl">
+    <img [src]="photoPreviewUrl" alt="Fotoğraf önizleme" />
+  </div>
+</div> 
+
+<div class="form-group">
+  <label class="field-label">CV Yükle (PDF, DOC, DOCX)</label>
+
+  <div class="file-select-wrapper">
+    <button mat-raised-button color="accent" type="button" (click)="openCvWithTauri()">
+      CV Seç
+    </button>
+
+    <span *ngIf="intern.cvFile" class="file-badge" [title]="selectedCvLabel">
+      📄 {{ selectedCvLabel }}
+    </span>
+
+    <button
+      *ngIf="intern.cvFile"
+      type="button"
+      class="btn-clear"
+      aria-label="CV’yi kaldır"
+      (click)="clearCv()"
+    >
+      ×
+    </button>
+  </div>
+</div> 
+
+
+
+    <div class="button-group">
+      <button mat-raised-button color="primary" type="button" (click)="onSubmitClick()">Ekle</button>
+    </div>
+  </form>
+</div>

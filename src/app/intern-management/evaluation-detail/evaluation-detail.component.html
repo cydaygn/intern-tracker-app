@@ -1,36 +1,66 @@
-<h2>Stajyer Değerlendirmesi (ID: {{ secilenStajyerId }})</h2>
+<h2>Stajyer Değerlendirmesi</h2>
 
-
-<label for="stajyerSelect">Stajyer Seç:</label>
-<select id="stajyerSelect" [(ngModel)]="secilenStajyerId" (change)="guncelleStajyerNotlar(); cizGrafik();">
-  <option *ngFor="let s of stajyerler" [value]="s.id">{{ s.ad }}</option>
+<select
+  id="stajyerSelect"
+  [(ngModel)]="secilenStajyerId"
+  (change)="onInternChange()"
+>
+  <option [ngValue]="null" disabled>-- Stajyer seçiniz --</option>
+  <option *ngFor="let i of interns" [ngValue]="i.id">
+    {{ i.name }}
+  </option>
 </select>
 
 
-<h3>Mevcut Notlar</h3>
-<ul>
-  <li *ngFor="let not of secilenStajyerNotlar">
-    {{ not.etiket }}: {{ not.puan }}
-  </li>
-</ul>
+
+<div *ngIf="loading" class="muted" style="margin: 8px 0">Yükleniyor...</div>
+
+<div class="left">
+  <h3>Mevcut Notlar</h3>
+
+  <ul class="note-list">
+    <li class="note-row" *ngFor="let label of etikets">
+      <div class="note-head">
+        <span class="note-label">{{ label }}</span>
+
+        <span class="score-badge"
+              [ngClass]="scoreClass(label)">
+          {{ scoreValue(label) }}
+        </span>
+      </div>
+
+      <div class="progress">
+        <div class="progress-fill"
+             [ngClass]="scoreClass(label)"
+             [style.width.%]="scoreValue(label)">
+        </div>
+      </div>
+    </li>
+  </ul>
+</div>
 
 
-<h3>Yeni Değerlendirme Ekle</h3>
+  <div class="right">
+    <h3>Yeni Değerlendirme Ekle / Güncelle</h3>
 
-<label for="etiketSelect">Değerlendirme Kriteri:</label>
-<select id="etiketSelect" [(ngModel)]="yeniNot.etiket">
-  <option value="" disabled selected>Seçiniz</option>
-  <option *ngFor="let e of etikets" [value]="e">{{ e }}</option>
-</select>
+    <label for="etiketSelect">Değerlendirme Kriteri:</label>
+    <select id="etiketSelect" [(ngModel)]="yeniNot.etiket">
+      <option [ngValue]="''" disabled>Seçiniz</option>
+      <option *ngFor="let e of etikets" [value]="e">{{ e }}</option>
+    </select>
 
-<br />
+    <br /><br />
 
-<label for="puanInput">Puan (0-100):</label>
-<input id="puanInput" type="number" [(ngModel)]="yeniNot.puan" min="0" max="100" />
+    <label for="puanInput">Puan (0–100):</label>
+    <input id="puanInput" type="number" [(ngModel)]="yeniNot.puan" min="0" max="100" />
 
-<br />
+    <br /><br />
 
-<button (click)="kaydet()">Kaydet</button>
+    <button (click)="kaydet()">Kaydet</button>
+  </div>
 
 
-<canvas #grafikCanvas width="400" height="200"></canvas>
+
+<div style="margin-top: 20px;">
+  <canvas #grafikCanvas width="520" height="260"></canvas>
+</div>

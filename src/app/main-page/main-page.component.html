@@ -1,10 +1,28 @@
-<h1>Hoşgeldiniz</h1>
+<div class="home-container">
+  <h1>Hoşgeldiniz 👋</h1>
+  <p class="subtitle">
+    Intern Tracker Application'a hoşgeldiniz. Hızlı işlemler için aşağıdan seçim yapabilirsiniz.
+  </p>
 
+  <nav class="quick-actions" aria-label="Hızlı işlemler">
+    <a class="action-card" routerLink="/dashboard/intern-form" aria-label="Yeni Stajyer Ekle">
+      <mat-icon aria-hidden="true">person_add</mat-icon>
+      <h3>Yeni Stajyer Ekle</h3>
+      <p>Sisteme yeni stajyer kaydı oluşturun.</p>
+    </a>
 
+    <a class="action-card" routerLink="/dashboard/assign-project" aria-label="Proje Ata">
+      <mat-icon aria-hidden="true">assignment</mat-icon>
+      <h3>Proje Ata</h3>
+      <p>Stajyerlere görev ve proje atayın.</p>
+    </a>
 
-<p *ngIf="testResult">{{ testResult }}</p>
+    
+   <a class="action-card" routerLink="/dashboard/evaluations" aria-label="Değerlendirme">
+  <mat-icon aria-hidden="true">bar_chart</mat-icon>
+  <h3>Değerlendirme</h3>
+  <p>Performans puanlarını girin ve inceleyin.</p>
+</a>
 
-<div class="quick-actions">
-  <button routerLink="/dashboard/intern-form">Yeni Stajyer Ekle</button>
-  <button routerLink="/dashboard/assign-project">Proje Ata</button>
+  </nav>
 </div>

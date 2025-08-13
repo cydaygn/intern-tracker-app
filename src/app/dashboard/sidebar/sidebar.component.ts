@@ -1,9 +1,14 @@
-import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, EventEmitter, Output } from '@angular/core';
 
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.scss']
 })
-export class SidebarComponent { }
+export class SidebarComponent {
+  @Output() linkClicked = new EventEmitter<void>();
+
+  onLinkClick() {
+    this.linkClicked.emit();
+  }
+}

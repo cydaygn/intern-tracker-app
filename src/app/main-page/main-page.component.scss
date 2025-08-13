@@ -1,52 +1,110 @@
-.container {
-  max-width: 700px;
+.home-container {
+  max-width: 900px;
   margin: 40px auto;
-  padding: 24px;
-  background-color: #f9f9f9;
-  border-radius: 16px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 0 16px;
   text-align: center;
 
   h1 {
-    font-size: 32px;
-    color: #5c2d91;
-    margin-bottom: 16px;
+    font-size: 28px;
+    font-weight: 700;
+    color: #2c3e50;
   }
 
-  p {
+  .subtitle {
+    color: #555;
+    margin-bottom: 32px;
     font-size: 16px;
-    color: #444;
-    margin-bottom: 24px;
+  }
+}
+
+.quick-actions {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+/* KART: genel görünüm ve etkileşim */
+.action-card {
+  display: block;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 22px 20px;
+  text-decoration: none; /* link alt çizgisini kaldır */
+  box-shadow: 0 4px 10px rgba(0,0,0,.06);
+  transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+  will-change: transform, box-shadow;
+@media (forced-colors: active) {
+  .action-card {
+    border-color: #4b8cff !important;  /* Mavi çerçeve */
+    &:focus-visible { 
+      outline: 2px solid #2563eb !important; /* Daha koyu mavi odak çizgisi */
+    }
+  }
+}
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 22px rgba(0,0,0,.12);
+    border-color: #d1d5db;
   }
 
-  .button-group {
-    display: flex;
-    flex-direction: column; /* Dikey sıralama için */
-    gap: 12px;
-    align-items: center;
-    justify-content: center;
+  &:focus-visible {
+    outline: 3px solid rgba(75, 140, 255, .45);
+    outline-offset: 3px;
+  }
 
-    button {
-      width: 240px;
-      padding: 12px 20px;
-      font-size: 16px;
-      font-weight: 600;
-      background-color: #6200ea;
-      color: #fff;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  /* Başlık: altı çizili, kalın */
+  h3 {
+    margin: 8px 0 10px;
+    font-size: 18px;
+    font-weight: 700;
+    color: #1f2937;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    text-decoration-thickness: 2px;
+  }
 
-      &:hover {
-        background-color: #4b00c4;
-        box-shadow: 0 4px 12px rgba(75, 0, 196, 0.5);
-      }
+  /* Açıklama: çizgisiz, yumuşak renk */
+  p {
+    margin: 0;
+    font-size: 14px;
+    color: #6b7280;
+    text-decoration: none;
+  }
+}
 
-      &:focus {
-        outline: none;
-        box-shadow: 0 0 0 3px rgba(98, 0, 234, 0.6);
-      }
-    }
+/* Karttaki ikonları güvenli büyütme (ligature font) */
+.action-card mat-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  /* boyut */
+  font-size: 40px;   /* Material Icons ligature büyüklüğü */
+  width: 48px;
+  height: 48px;
+  line-height: 48px;
+
+  /* görünüm */
+  color: #4b8cff;
+  margin-bottom: 10px;
+
+  /* olası clipping’i önle */
+  overflow: visible;
+}
+
+/* Yüksek kontrast/Forced Colors desteği */
+@media (forced-colors: active) {
+  .action-card {
+    border-color: ButtonText;
+    &:focus-visible { outline-color: Highlight; }
+  }
+}
+
+/* Hareketi azalt (erişilebilirlik) */
+@media (prefers-reduced-motion: reduce) {
+  .action-card {
+    transition: none;
+    &:hover { transform: none; box-shadow: 0 4px 10px rgba(0,0,0,.06); }
   }
 }

@@ -1,23 +1,35 @@
 <h2>Proje Atama Modülü</h2>
 
-<form (submit)="ata(); $event.preventDefault()">
+
+<form (submit)="$event.preventDefault()" novalidate>
   <label>
     Stajyer Seçin:
-    <select [(ngModel)]="selectedInternId" name="intern" required>
-      <option [ngValue]="null" disabled selected>-- Stajyer seçiniz --</option>
-      <option *ngFor="let intern of interns" [value]="intern.id">
-        {{ intern.name }}
+    <select
+      [(ngModel)]="selectedInternId"
+      name="intern"
+      required
+      [disabled]="isLoading || interns.length === 0"
+    >
+      <option [ngValue]="null" disabled>-- Stajyer seçiniz --</option>
+      <option *ngFor="let intern of interns" [ngValue]="intern.id">
+        {{ intern.first_name }} {{ intern.last_name }}
       </option>
     </select>
   </label>
+
+  <div *ngIf="!isLoading && interns.length === 0" style="margin:6px 0;color:#888;">
+    (Kayıtlı stajyer yok)
+  </div>
+  <div *ngIf="isLoading" style="margin:6px 0;color:#888;">Yükleniyor…</div>
+  <div *ngIf="errorMsg" style="margin:6px 0;color:#c00;">{{ errorMsg }}</div>
 
   <br /><br />
 
   <label>
     Proje Türü Seçin:
     <select [(ngModel)]="selectedProjectType" name="projectType" required>
-      <option [ngValue]="null" disabled selected>-- Proje türü seçiniz --</option>
-      <option *ngFor="let type of projectTypes" [value]="type">
+      <option [ngValue]="null" disabled>-- Proje türü seçiniz --</option>
+      <option *ngFor="let type of projectTypes" [ngValue]="type">
         {{ type }}
       </option>
     </select>
@@ -29,22 +41,43 @@
     Görev Açıklaması:
     <textarea [(ngModel)]="taskDescription" name="taskDescription" rows="3" required></textarea>
   </label>
-<div class="form-group">
-    <label for="pdfDosyasi">Proje  Dosyası</label>
-    <input type="file" id="pdfDosyasi" (change)="onFileSelected($event)" accept=".pdf" />
-  </div>
-  <br /><br />
 
-  <label>
-    Teslim Tarihi:
+  
+<input
+  #pdfInput
+  type="file"
+  accept=".pdf"
+  hidden
+  (change)="onFileSelected($event)"
+/>
+
+<div class="pdf-select-wrapper">
+  <button type="button" class="btn-select" (click)="openPdfWithTauri()">📎 Dosya Seç</button>
+
+  <ng-container *ngIf="pdfDosyasi">
+    <span class="selected-file" [title]="selectedFileLabel">{{ selectedFileLabel }}</span>
+    <button type="button" class="btn-clear" (click)="clearSelectedFile()" aria-label="Seçimi temizle">×</button>
+  </ng-container>
+</div>
+
+<br /><br />
+
+  <br /><br />
+ <mat-form-field appearance="fill" class="date-field">
+    <mat-label>Teslim Tarihi *</mat-label>
     <input
-      type="date"
-      [(ngModel)]="dueDate"
+      matInput
+      [matDatepicker]="pickerDue"
       name="dueDate"
+      [(ngModel)]="dueDate"
+      [min]="minDate"
       required
-      [attr.min]="todayDate()"
     />
-  </label>
+    <mat-datepicker-toggle matSuffix [for]="pickerDue"></mat-datepicker-toggle>
+    <mat-datepicker #pickerDue></mat-datepicker>
+  </mat-form-field>
+
+
 
   <br /><br />
 
@@ -59,6 +92,11 @@
 
   <br /><br />
 
-  <button type="submit">Projeyi Ata</button>
+  
+<div class="assign-actions">
+  <button type="button" (click)="ata()" [disabled]="isLoading">Projeyi Ata</button>
   <button type="button" (click)="cancelAssign()">İptal</button>
+</div>
+
+  
 </form>

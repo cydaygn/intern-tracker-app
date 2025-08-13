@@ -1,18 +1,128 @@
-.error {
-  color: red;
-  margin: 10px 0;
+:host {
+  display: block;
+}
+
+.page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+.card {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 6px 24px rgba(0,0,0,0.06);
+  padding: 16px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+
+  h2 {
+    margin: 0;
+    font-weight: 600;
+    letter-spacing: .2px;
+  }
+}
+
+.actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+
+  button {
+    border-radius: 12px;
+    text-transform: none;
+  }
+}
+
+.filter-panel {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(160px, 1fr));
+  gap: 8px;
+  margin-bottom: 12px;
+
+  input, select {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #e6e6e6;
+    border-radius: 12px;
+    outline: none;
+    background: #fafafa;
+
+    &:focus {
+      border-color: #c7c7c7;
+      background: #fff;
+    }
+  }
+}
+
+.table-wrap {
+  overflow: auto;
+  border-radius: 12px;
+  border: 1px solid #eee;
 }
 
 table {
   width: 100%;
   border-collapse: collapse;
+  min-width: 780px;
+  background: #fff;
 
-  th {
-    background-color: #f0f0f0;
+  thead th {
+    text-align: left;
+    font-weight: 600;
+    font-size: 13px;
+    color: #555;
+    background: #fafafa;
+    padding: 12px;
+    border-bottom: 1px solid #eee;
+    position: sticky;
+    top: 0;
+    z-index: 1;
   }
 
-  th, td {
-    text-align: left;
-    padding: 8px;
+  tbody td {
+    padding: 12px;
+    border-bottom: 1px solid #f0f0f0;
+    vertical-align: middle;
+  }
+
+  tbody tr {
+    transition: background .15s ease;
+
+    &:hover {
+      background: #fcfcfc;
+    }
+  }
+}
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+
+  &.aktif      { background: #e9f7ef; color: #2e7d32; }
+  &.pasif      { background: #f9f9fb; color: #616161; }
+  &.tamamlandı { background: #e8f4ff; color: #1565c0; }
+}
+
+.empty {
+  color: #8a8a8a;
+  text-align: center;
+  padding: 24px 8px;
+}
+
+
+@media (max-width: 1024px) {
+  .filter-panel {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
