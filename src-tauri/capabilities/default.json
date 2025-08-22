@@ -2,12 +2,14 @@
   "$schema": "../gen/schemas/desktop-schema.json",
   "identifier": "default",
   "description": "Capability for the main window",
+
   "windows": [
     "main"
   ],
   "permissions": [
     "core:default",
     "opener:default",
+    
     "sql:default",
     "sql:allow-execute",
     "sql:allow-load",
@@ -18,6 +20,8 @@
     "fs:default",
       "dialog:default",
        "notification:default",
-        "notification:allow-show"
+        "notification:allow-show",
+         "core:window:allow-close"
   ]
+  
 }

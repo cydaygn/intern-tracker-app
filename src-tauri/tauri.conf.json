@@ -2,18 +2,19 @@
   "$schema": "https://schema.tauri.app/config/2",
   "productName": "interntracker",
   "version": "0.1.0",
-  "identifier": "com.interntracker.app",
+  "identifier": "com.interntracker.desktop",
   "build": {
     "beforeDevCommand": "npm run start",
     "devUrl": "http://localhost:1420",
     "beforeBuildCommand": "npm run build",
-    "frontendDist": "../dist/interntracker/browser"
+    "frontendDist": "../dist/interntracker"
   },
   "app": {
     "withGlobalTauri": true,
     "windows": [
       {
-        "title": "interntracker",
+        "decorations": false,
+        "title": " ",
         "width": 800,
         "height": 600,
         "resizable": true,
@@ -21,12 +22,13 @@
       }
     ],
     "security": {
-      "csp": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: file:; connect-src 'self' tauri: https:;"
+       
+      "csp": "default-src 'self' asset:; script-src 'self' 'unsafe-inline' 'unsafe-eval' asset:; style-src 'self' 'unsafe-inline' asset:; img-src 'self' data: blob: asset:; font-src 'self' data: asset:; connect-src 'self' tauri: https:; media-src 'self' asset:; frame-src 'self' asset:;"
     }
   },
   "bundle": {
     "active": true,
-    "targets": "all",
+    "targets": ["nsis"],
     "icon": [
       "icons/32x32.png",
       "icons/128x128.png",
@@ -35,10 +37,7 @@
       "icons/icon.ico"
     ]
   },
-   "plugins": {
-    "sql": {
-      "preload": ["sqlite:interns.db"]
-      
-    }
+  "plugins": {
+    "sql": { "preload": ["sqlite:interns.db"] }
   }
 }

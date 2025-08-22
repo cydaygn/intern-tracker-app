@@ -1,31 +1,25 @@
 <div class="filter-panel">
-  <h3>Filtreler</h3>
-
   <mat-form-field appearance="fill" class="full-width">
     <mat-label>İsim</mat-label>
-    <input
-      matInput
-      placeholder="İsim ara"
+    <input matInput placeholder="İsim ara"
       [(ngModel)]="nameFilter"
-      (ngModelChange)="onFilterChange()"
-    />
+      (ngModelChange)="onFilterChange()" />
   </mat-form-field>
 
   <mat-form-field appearance="fill" class="full-width">
     <mat-label>Okul</mat-label>
-    <input
-      matInput
-      placeholder="Okul ara"
+    <input matInput placeholder="Okul ara"
       [(ngModel)]="schoolFilter"
-      (ngModelChange)="onFilterChange()"
-    />
+      (ngModelChange)="onFilterChange()" />
   </mat-form-field>
 
   <mat-form-field appearance="fill" class="full-width">
     <mat-label>Dönem</mat-label>
     <mat-select [(value)]="periodFilter" (selectionChange)="onFilterChange()">
       <mat-option value="">Tümü</mat-option>
-      <mat-option *ngFor="let p of periods" [value]="p">{{ p }}</mat-option>
+      <mat-option *ngFor="let p of periods" [value]="p.value">
+        {{ p.label }}
+      </mat-option>
     </mat-select>
   </mat-form-field>
 
@@ -33,7 +27,9 @@
     <mat-label>Proje Durumu</mat-label>
     <mat-select [(value)]="projectStatusFilter" (selectionChange)="onFilterChange()">
       <mat-option value="">Tümü</mat-option>
-      <mat-option *ngFor="let status of projectStatuses" [value]="status">{{ status }}</mat-option>
+      <mat-option *ngFor="let status of projectStatuses" [value]="status.toLowerCase()">
+        {{ status }}
+      </mat-option>
     </mat-select>
   </mat-form-field>
 
@@ -41,7 +37,9 @@
     <mat-label>Etiket</mat-label>
     <mat-select [(value)]="tagFilter" (selectionChange)="onFilterChange()">
       <mat-option value="">Tümü</mat-option>
-      <mat-option *ngFor="let tag of tags" [value]="tag">{{ tag }}</mat-option>
+      <mat-option *ngFor="let tag of tags" [value]="tag.toLowerCase()">
+        {{ tag }}
+      </mat-option>
     </mat-select>
   </mat-form-field>
 

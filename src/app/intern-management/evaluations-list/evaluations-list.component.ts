@@ -27,7 +27,11 @@ export class EvaluationsListComponent implements OnInit {
   async ngOnInit() {
     await this.loadInterns();
   }
-
+ private titleCaseSpaces(text: string): string {
+  return (text ?? '').replace(/(^|\s)(\p{L})/gu, (_, space, ch) =>
+    space + ch.toLocaleUpperCase('tr-TR')
+  );
+}
   async loadInterns() {
     this.isLoading = true;
     this.errorMsg = '';

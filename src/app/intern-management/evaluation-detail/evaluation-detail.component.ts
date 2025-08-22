@@ -51,21 +51,30 @@ export class EvaluationDetailComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     this.cizGrafik();
   }
-
-  private async loadInterns() {
-    this.loading = true;
-    try {
-      const list = await this.db.getInternOptions();
-      this.zone.run(() => {
-        this.interns = list ?? [];
-      });
-      this.cdr.detectChanges();
-    } catch (error) {
-      console.error('Error loading interns:', error);
-    } finally {
-      this.loading = false;
-    }
+  private titleCaseSpaces(text: string): string {
+  return (text ?? '').replace(/(^|\s)(\p{L})/gu, (_, space, ch) =>
+    space + ch.toLocaleUpperCase('tr-TR')
+  );
+}
+private async loadInterns() {
+  this.loading = true;
+  try {
+    const list = await this.db.getInternOptions();
+    this.zone.run(() => {
+      this.interns = (list ?? []).map(i => ({
+        ...i,
+        name: this.titleCaseSpaces(i.name ?? ''),
+        status: i.status ? this.titleCaseSpaces(i.status) : i.status
+      }));
+    });
+    this.cdr.detectChanges();
+  } catch (error) {
+    console.error('Error loading interns:', error);
+  } finally {
+    this.loading = false;
   }
+}
+
 
   async onInternChange() {
     console.log('Intern changed to:', this.secilenStajyerId);
@@ -87,8 +96,8 @@ export class EvaluationDetailComponent implements OnInit, AfterViewInit {
       console.log('Loading evaluations for intern:', this.secilenStajyerId);
       
      
-      const internId = Number(this.secilenStajyerId);
-      if (isNaN(internId) || internId <= 0) {
+      const intern_id = Number(this.secilenStajyerId);
+      if (isNaN(intern_id) || intern_id <= 0) {
         console.error('Invalid intern ID:', this.secilenStajyerId);
         this.zone.run(() => {
           this.evaluations = [];
@@ -96,7 +105,7 @@ export class EvaluationDetailComponent implements OnInit, AfterViewInit {
         return;
       }
 
-      const rows = await this.db.getEvaluations(internId);
+      const rows = await this.db.getEvaluations(intern_id);
       console.log('Loaded evaluations:', rows);
       
       this.zone.run(() => {
@@ -165,7 +174,7 @@ export class EvaluationDetailComponent implements OnInit, AfterViewInit {
 
   scoreClass(label: string): 'low'|'mid'|'high' {
     const v = this.scoreValue(label);
-    if (v < 40) return 'low';
+    if (v < 50) return 'low';
     if (v < 75) return 'mid';
     return 'high';
   }

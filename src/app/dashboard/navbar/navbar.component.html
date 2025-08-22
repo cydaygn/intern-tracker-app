@@ -1,6 +1,5 @@
-<nav class="navbar">
-  
-  <button class="menu-button" (click)="menuToggle.emit()">
+<nav class="navbar" data-tauri-drag-region>
+  <button class="menu-button" (click)="menuToggle.emit()" data-tauri-drag-region="false">
     <mat-icon>menu</mat-icon>
   </button>
   <h1>Intern Tracker Uygulaması</h1>

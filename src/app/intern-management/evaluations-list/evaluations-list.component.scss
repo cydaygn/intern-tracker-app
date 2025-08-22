@@ -60,27 +60,32 @@
 
   .intern-name {
     font-size: 16px;
-    font-weight: 500; /* diğer yazılarla aynı kalınlık */
-    color: #000;   /* diğer yazılarla aynı renk */
+    font-weight: 500;
+    color: #000;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
   }
 }
 
+html,body {
+  overflow-y: hidden;
+}
+
+
 .badge {
-  padding: 2px 8px;
+  padding: 4px 10px;
   border-radius: 999px;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 600;
   line-height: 1.6;
   text-transform: capitalize;
   border: 1px solid transparent;
 }
 
-.badge-active  { background:#ecfdf5; color:#047857; border-color:#a7f3d0; } /* yeşil */
-.badge-done    { background:#eef2ff; color:#3730a3; border-color:#c7d2fe; } /* mor */
-.badge-passive { background:#fef3c7; color:#92400e; border-color:#fde68a; } /* amber */
+.badge-active  { background:#ecfdf5; color:rgb(11, 152, 56); border-color:#a7f3d0; } /* yeşil */
+.badge-done    { background:#eef2ff; color:#2419c7; border-color:#c7d2fe; } /* mor */
+.badge-passive { background:#fef3c7; color:#c35120; border-color:#fde68a; } /* amber */
 
 /* Erişilebilirlik: hareketi azalt */
 @media (prefers-reduced-motion: reduce) {

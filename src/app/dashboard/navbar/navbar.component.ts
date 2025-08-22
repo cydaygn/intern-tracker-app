@@ -7,4 +7,5 @@ import { Component, EventEmitter, Output } from '@angular/core';
 })
 export class NavbarComponent {
   @Output() menuToggle = new EventEmitter<void>();
+  
 }

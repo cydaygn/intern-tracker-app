@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'app-intern-filter',
@@ -6,15 +6,16 @@ import { Component, EventEmitter, Output } from '@angular/core';
   styleUrls: ['./intern-filter.component.scss'],
 })
 export class InternFilterComponent {
+  @Input() periods: { value: string; label: string }[] = [];
+
   nameFilter: string = '';
   schoolFilter: string = '';
   periodFilter: string = '';
   projectStatusFilter: string = '';
   tagFilter: string = '';
 
-  periods: string[] = ['2023 Bahar', '2023 Yaz', '2023 Güz']; // Örnek dönemler
-  projectStatuses: string[] = ['Planned', 'In Progress', 'Completed']; // Örnek proje durumları
-  tags: string[] = ['Frontend', 'Backend', 'Fullstack']; // Örnek etiketler
+  projectStatuses: string[] = ['Aktif', 'Tamamlandı', 'Beklemede'];
+  tags: string[] = ['Frontend', 'Backend', 'Fullstack'];
 
   @Output() filterChanged = new EventEmitter<{
     name: string;

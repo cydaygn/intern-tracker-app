@@ -21,7 +21,7 @@ export class AssignProjectComponent implements OnInit {
   ];
   isTauri = typeof (window as any).__TAURI__ !== 'undefined';
 
-  selectedInternId: number | null = null;
+  selectedIntern_id: number | null = null;
   selectedProjectType: string | null = null;
   taskDescription = '';
 
@@ -121,7 +121,7 @@ export class AssignProjectComponent implements OnInit {
   async ata() {
     console.log('[ASSIGN] Projeyi Ata tıklandı');
 
-    if (!this.selectedInternId ||
+    if (!this.selectedIntern_id ||
         !this.selectedProjectType ||
         !this.taskDescription.trim() ||
         !this.dueDate) {
@@ -140,7 +140,7 @@ export class AssignProjectComponent implements OnInit {
       }
 
       const a: Assignment = {
-        intern_id: this.selectedInternId,
+        intern_id: this.selectedIntern_id,
         project_type: this.selectedProjectType!,
         task_description: this.taskDescription.trim(),
         due_date: this.toYMD(this.dueDate),
@@ -163,7 +163,7 @@ export class AssignProjectComponent implements OnInit {
   }
 
   cancelAssign() {
-    this.selectedInternId = null;
+    this.selectedIntern_id = null;
     this.selectedProjectType = null;
     this.taskDescription = '';
     this.dueDate = null;

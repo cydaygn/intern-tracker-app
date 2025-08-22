@@ -1,34 +1,23 @@
 .navbar {
-  position: fixed;       /* Sabitle */
+  -webkit-app-region: drag; /* Tauri sürükleme */
+  position: fixed;
   top: 0;
   left: 0;
   right: 0;
-  z-index: 1000;         /* Sidebar'dan yüksek olmalı */
   height: 56px;
   background: linear-gradient(90deg, #4b6cb7, #182848);
-  color: white;
   display: flex;
   align-items: center;
   padding: 0 16px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-
-  h1 {
-    font-size: 1.2rem;
-    margin: 0;
-    font-weight: 500;
-  }
+  color: white;
 }
 
 .menu-button {
+  -webkit-app-region: no-drag; /* Tıklanabilir alan */
   background: transparent;
   border: none;
   color: white;
   font-size: 20px;
   margin-right: 12px;
   cursor: pointer;
-  transition: transform 0.2s ease;
-
-  &:hover {
-    transform: scale(1.1);
-  }
 }

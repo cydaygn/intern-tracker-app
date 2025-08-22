@@ -1,12 +1,19 @@
 <div class="form-container">
-  <h2>Yeni Stajyer Ekle</h2>
-
-  <button mat-button (click)="goBack()" aria-label="Geri">
-    <mat-icon>arrow_back</mat-icon>
-    Geri
-  </button>
-
-  
+  <div class="form-header">
+    <h2>Yeni Stajyer Ekle</h2>
+    <button class="update-button" type="button" (click)="openSelectIntern()">
+      Stajyer Seç / Güncelle
+    </button>
+  </div>
+  <div *ngIf="showSelectDialog" class="update-dialog">
+    <h3>Güncellenecek Stajyeri Seç</h3>
+    <ul>
+      <li *ngFor="let intern of allInterns" (click)="selectInternToUpdate(intern)">
+        {{ intern.first_name }} {{ intern.last_name }} - {{ intern.school }}
+      </li>
+    </ul>
+    <button mat-button (click)="showSelectDialog = false">Kapat</button>
+  </div>
   <form #internForm="ngForm" (submit)="onFormSubmit($event)" novalidate>
     <div class="form-group">
       <label class="field-label">Ad *</label>
@@ -15,7 +22,6 @@
       </mat-form-field>
       <div *ngIf="firstName.invalid && firstName.touched" class="error-msg">Ad zorunludur.</div>
     </div>
-
     <div class="form-group">
       <label class="field-label">Soyad *</label>
       <mat-form-field appearance="fill" class="full-width">
@@ -23,7 +29,6 @@
       </mat-form-field>
       <div *ngIf="lastName.invalid && lastName.touched" class="error-msg">Soyad zorunludur.</div>
     </div>
-
     <div class="form-group">
       <label class="field-label">Okul *</label>
       <mat-form-field appearance="fill" class="full-width">
@@ -31,24 +36,24 @@
       </mat-form-field>
       <div *ngIf="school.invalid && school.touched" class="error-msg">Okul zorunludur.</div>
     </div>
-
     <div class="form-group">
       <label class="field-label">Bölüm</label>
       <mat-form-field appearance="fill" class="full-width">
         <input matInput name="department" [(ngModel)]="intern.department" />
       </mat-form-field>
     </div>
-
-    <div class="form-group">
-      <label class="field-label">Durum *</label>
-      <select name="status" [(ngModel)]="intern.status" #status="ngModel" required>
-        <option value="aktif">Aktif</option>
-        <option value="pasif">Pasif</option>
-        <option value="tamamlandı">Tamamlandı</option>
-      </select>
-      <div *ngIf="status.invalid && status.touched" class="error-msg">Durum seçimi zorunludur.</div>
-    </div>
-
+   <div class="form-group">
+  <label class="field-label">Durum *</label>
+  <mat-form-field appearance="fill" class="full-width">
+    <mat-select name="status" [(ngModel)]="intern.status" #status="ngModel" required>
+      <mat-option value="aktif">Aktif</mat-option>
+      <mat-option value="pasif">Pasif</mat-option>
+      <mat-option value="tamamlandı">Tamamlandı</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <div *ngIf="status.invalid && status.touched" class="error-msg">
+    Durum seçimi zorunludur.  </div>
+</div>
     <div class="form-group">
       <label class="field-label">Telefon *</label>
       <mat-form-field appearance="fill" class="full-width">
@@ -56,7 +61,6 @@
       </mat-form-field>
       <div *ngIf="contact.invalid && contact.touched" class="error-msg">Telefon numarası sadece rakamlardan oluşmalıdır.</div>
     </div>
-
     <div class="form-group">
       <label class="field-label">E-posta *</label>
       <mat-form-field appearance="fill" class="full-width">
@@ -64,7 +68,6 @@
       </mat-form-field>
       <div *ngIf="email.invalid && email.touched" class="error-msg">Geçerli bir e-posta giriniz.</div>
     </div>
-
     <div class="date-row">
       <mat-form-field appearance="fill" floatLabel="always" class="date-field">
         <label class="field-label">Başlangıç Tarihi *</label>
@@ -73,7 +76,6 @@
         <mat-datepicker #pickerStart></mat-datepicker>
         <div *ngIf="startDate.invalid && startDate.touched" class="error-msg">Başlangıç tarihi zorunludur.</div>
       </mat-form-field>
-
       <mat-form-field appearance="fill" floatLabel="always" class="date-field">
         <label class="field-label">Bitiş Tarihi</label>
         <input matInput [matDatepicker]="pickerEnd" name="endDate" [(ngModel)]="intern.end_date" />
@@ -81,64 +83,47 @@
         <mat-datepicker #pickerEnd></mat-datepicker>
       </mat-form-field>
     </div>
-
-
+<!-- FOTOĞRAF -->
 <div class="form-group">
   <label class="field-label">Fotoğraf Yükle</label>
-
   <div class="file-select-wrapper">
     <button mat-raised-button color="accent" type="button" (click)="openPhotoWithTauri()">
       Fotoğraf Seç
     </button>
-
-    <span *ngIf="intern.photoFile" class="file-badge" [title]="intern.photoFile.name">
-      {{ intern.photoFile.name }}
+    <span *ngIf="intern.photoFile || intern.photo_name" class="file-badge"
+          [title]="(intern.photoFile?.name || intern.photo_name) || ''">
+      {{ intern.photoFile?.name || intern.photo_name }}
     </span>
-
-    <button
-      *ngIf="intern.photoFile"
-      type="button"
-      class="btn-clear"
-      aria-label="Fotoğrafı kaldır"
-      (click)="clearPhoto()"
-    >
-      ×
-    </button>
+    <input #photoInput type="file"
+           (change)="onPhotoInputChange($event)"
+           [attr.accept]="acceptImg.join(',')"
+           style="display:none" />
   </div>
+</div>
 
-  <div class="photo-preview" *ngIf="photoPreviewUrl">
-    <img [src]="photoPreviewUrl" alt="Fotoğraf önizleme" />
-  </div>
-</div> 
-
+<!-- CV -->
 <div class="form-group">
   <label class="field-label">CV Yükle (PDF, DOC, DOCX)</label>
-
   <div class="file-select-wrapper">
     <button mat-raised-button color="accent" type="button" (click)="openCvWithTauri()">
       CV Seç
     </button>
-
-    <span *ngIf="intern.cvFile" class="file-badge" [title]="selectedCvLabel">
-      📄 {{ selectedCvLabel }}
+    <span *ngIf="intern.cvFile || intern.cv_name" class="file-badge" [title]="(intern.cvFile?.name || intern.cv_name) || ''">
+      📄 {{ intern.cvFile?.name || intern.cv_name }}
     </span>
-
-    <button
-      *ngIf="intern.cvFile"
-      type="button"
-      class="btn-clear"
-      aria-label="CV’yi kaldır"
-      (click)="clearCv()"
-    >
-      ×
-    </button>
+    <input #cvInput type="file"
+           (change)="onCvInputChange($event)"
+           [attr.accept]="acceptCv.join(',')"
+           style="display:none" />
   </div>
-</div> 
+</div>
 
+ 
 
-
-    <div class="button-group">
-      <button mat-raised-button color="primary" type="button" (click)="onSubmitClick()">Ekle</button>
-    </div>
+   <div class="button-group">
+  <button mat-raised-button color="primary" type="button" (click)="onSubmitClick()">
+    {{ isUpdateMode ? 'Güncelle' : 'Ekle' }}
+  </button>
+  </div>
   </form>
 </div>

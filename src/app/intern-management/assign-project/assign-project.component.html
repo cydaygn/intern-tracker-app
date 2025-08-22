@@ -1,21 +1,18 @@
-<h2>Proje Atama Modülü</h2>
+<div class="formGenel">
+  <h2>Proje Atama Modülü</h2>
 
 
-<form (submit)="$event.preventDefault()" novalidate>
-  <label>
-    Stajyer Seçin:
-    <select
-      [(ngModel)]="selectedInternId"
-      name="intern"
-      required
-      [disabled]="isLoading || interns.length === 0"
-    >
-      <option [ngValue]="null" disabled>-- Stajyer seçiniz --</option>
-      <option *ngFor="let intern of interns" [ngValue]="intern.id">
-        {{ intern.first_name }} {{ intern.last_name }}
-      </option>
-    </select>
-  </label>
+<form  (submit)="$event.preventDefault()" novalidate>
+   <mat-form-field appearance="fill" class="full-width">
+  <mat-label>Stajyer Seçin</mat-label>
+  <mat-select [(ngModel)]="selectedIntern_id" name="intern" required>
+    <mat-option [value]="null" disabled>-- Stajyer seçiniz --</mat-option>
+    <mat-option *ngFor="let intern of interns" [value]="intern.id">
+      {{ intern.first_name }} {{ intern.last_name }}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+
 
   <div *ngIf="!isLoading && interns.length === 0" style="margin:6px 0;color:#888;">
     (Kayıtlı stajyer yok)
@@ -81,22 +78,20 @@
 
   <br /><br />
 
-  <label>
-    Durum:
-    <select [(ngModel)]="status" name="status">
-      <option value="Planned">Planlandı</option>
-      <option value="In Progress">Devam Ediyor</option>
-      <option value="Completed">Tamamlandı</option>
-    </select>
-  </label>
+ <mat-form-field appearance="fill" class="full-width">
+  <mat-label>Durum</mat-label>
+  <mat-select [(ngModel)]="status" name="status">
+    <mat-option value="Planned">Planlandı</mat-option>
+    <mat-option value="In Progress">Devam Ediyor</mat-option>
+    <mat-option value="Completed">Tamamlandı</mat-option>
+  </mat-select>
+</mat-form-field>
 
   <br /><br />
-
-  
 <div class="assign-actions">
   <button type="button" (click)="ata()" [disabled]="isLoading">Projeyi Ata</button>
   <button type="button" (click)="cancelAssign()">İptal</button>
 </div>
-
-  
 </form>
+
+</div>

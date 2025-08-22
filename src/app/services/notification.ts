@@ -15,10 +15,10 @@ export class ReminderService {
   constructor(private db: DatabaseService) {}
 
   start(intervalMinutes: number = 60) {
-    // ilk çalıştırma
+   
     this.runChecks().catch(console.error);
 
-    // periyodik çalıştırma
+    
     this.sub = interval(intervalMinutes * 60 * 1000).subscribe(() => {
       this.runChecks().catch(console.error);
     });
@@ -54,7 +54,7 @@ export class ReminderService {
     localStorage.setItem(`notif_${key}`, new Date().toDateString());
   }
 
-  // X gün kala teslim bildirimi (örn. 3 gün)
+  
   private async checkDeadlines() {
     if (!(await this.ensureNotifyPermission())) return;
 
@@ -88,7 +88,7 @@ private async checkMissingNotes() {
   const d = String(today.getDate()).padStart(2, '0');
   const ymd = `${y}-${m}-${d}`;
 
-  // <- DatabaseService'e eklediğimiz tek-sorgu fonksiyonunu kullan
+
   const missingCount = await this.db.countInternsMissingNoteFor(ymd);
 
   if (missingCount > 0 && !this.alreadyNotified('missingNotes')) {
@@ -100,7 +100,7 @@ private async checkMissingNotes() {
   }
 }
 
-  // Yaklaşan staj bitiş tarihleri (7 gün)
+  
   private async checkInternEndDates() {
     if (!(await this.ensureNotifyPermission())) return;
 
@@ -124,7 +124,7 @@ private async checkMissingNotes() {
     }
   }
 
-  // "YYYY-MM-DD" → kalan gün
+  
   private daysUntil(ymd: string, ref: Date): number {
     const [Y, M, D] = ymd.split('-').map(Number);
     const due = new Date(Y, M - 1, D, 0, 0, 0, 0);

@@ -1,7 +1,41 @@
 .filter-panel {
-  padding: 10px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  max-width: 300px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 12px;
+  padding: 16px;
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+  margin-bottom: 16px;
+}
+
+mat-form-field {
+  background: #fafafa;
+  border-radius: 8px;
+  padding: 4px 8px;
+  
+  .mat-form-field-flex {
+    background: transparent;
+  }
+
+  .mat-form-field-outline {
+    border-radius: 8px;
+  }
+}
+
+mat-select, input[matInput] {
+  font-size: 14px;
+}
+
+button[mat-button] {
+  height: 40px;
+  border-radius: 8px;
+  font-weight: 500;
+  text-transform: none;
+  background: linear-gradient(90deg, #d55b5b, #1f3561);
+  color: white;
+
+  &:hover {
+    background: linear-gradient(90deg, #5d7fd5, #243b6d);
+  }
 }

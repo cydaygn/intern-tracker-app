@@ -1,14 +1,15 @@
-import { NgModule } from '@angular/core';
+import { NgModule, LOCALE_ID } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
-
+import { MatOptionModule } from '@angular/material/core';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { CommonModule } from '@angular/common'; 
+import { CommonModule, registerLocaleData } from '@angular/common';
+import localeTr from '@angular/common/locales/tr';
 import { FormsModule } from '@angular/forms';
 import { DialogComponent } from './shared/dialog/dialog.component';
 
@@ -22,16 +23,15 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
+import { MatNativeDateModule, MAT_DATE_FORMATS, MAT_DATE_LOCALE, MatDateFormats } from '@angular/material/core';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatTableModule } from '@angular/material/table';
-import { DatabaseService } from './services/database.service'; // Yeni eklenen
+import { DatabaseService } from './services/database.service';
 
 import { DashboardComponent } from './dashboard/dashboard/dashboard.component';
-import { MainPageModule } from './main-page/main-page.module';  
-
+import { MainPageModule } from './main-page/main-page.module';
 import { InternManagementModule } from './intern-management/intern-management.module';
 
 import { DataService } from './services/data.service';
@@ -42,26 +42,42 @@ import { AppRoutingModule } from './app.routes';
 
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { DashboardModule } from './dashboard/dashboard/dashboard.module';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
 
+/** TR yerelini kaydet */
+registerLocaleData(localeTr);
+
+/** MatNativeDateAdapter için TR formatları (gün.ay.yıl) */
+export const TR_DATE_FORMATS: MatDateFormats = {
+  parse: {
+    dateInput: 'dd.MM.yyyy',
+  },
+  display: {
+    dateInput: 'dd.MM.yyyy',
+    monthYearLabel: 'MMM yyyy',
+    dateA11yLabel: 'dd.MM.yyyy',
+    monthYearA11yLabel: 'MMMM yyyy',
+  },
+};
+
 @NgModule({
   declarations: [
     AppComponent,
     DialogComponent,
-    
   ],
   imports: [
-    
+    MatOptionModule,
     CommonModule,
     BrowserModule,
     HttpClientModule,
-      MatDialogModule,
-     DashboardModule,
+    MatDialogModule,
+    DashboardModule,
     BrowserAnimationsModule,
-    MainPageModule,       
+    MainPageModule,
     InternManagementModule,
     AppRoutingModule,
     FormsModule,
@@ -90,10 +106,11 @@ export function HttpLoaderFactory(http: HttpClient) {
     DataService,
     DatabaseService,
     ThemeService,
-    {
-      provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
-      useValue: { appearance: 'fill' }
-    },
+    { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'fill' } },
+    { provide: LOCALE_ID, useValue: 'tr-TR' },
+    { provide: MAT_DATE_LOCALE, useValue: 'tr-TR' },
+    { provide: MAT_DATE_FORMATS, useValue: TR_DATE_FORMATS },
+    provideAnimationsAsync(),
   ],
   bootstrap: [AppComponent],
 })

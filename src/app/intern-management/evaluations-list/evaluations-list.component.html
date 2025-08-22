@@ -8,19 +8,16 @@
     <div class="left">
       <div class="name-row">
         <span class="intern-name">{{ intern.name || '(İsimsiz)' }}</span>
-        <span class="badge"
-              [ngClass]="{
-                'badge-active': intern.status === 'aktif',
-                'badge-done': intern.status === 'tamamlandı',
-                'badge-passive': intern.status === 'pasif'
-              }">
-          {{ intern.status || 'durum yok' }}
-        </span>
-      </div>
+       <span class="badge"
+      [ngClass]="{
+        'badge-active': intern.status?.toLowerCase() === 'aktif',
+        'badge-done': intern.status?.toLowerCase() === 'tamamlandı',
+        'badge-passive': intern.status?.toLowerCase() === 'pasif'
+      }">
+  {{ intern.status || 'durum yok' }}
+</span>
 
-    
-      
-  
+      </div>
     <div class="right">
       <button mat-raised-button color="primary" (click)="showDetails(intern.id)">
         Detay

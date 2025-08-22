@@ -4,9 +4,40 @@
   padding: 24px;
   background-color: #ffffff;
   border-radius: 16px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 16px rgba(36, 210, 220, 0.6);
   font-family: 'Roboto', sans-serif;
-  
+  .form-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+
+  h2 {
+    font-size: 24px;
+    font-weight: 700;
+    color: #2c3e50;
+    margin: 0;
+  }
+
+  .update-button {
+    background-color: #591ae0;
+    color: #fff;
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: all 0.25s ease;
+
+    &:hover {
+      background-color: #ac792d;
+      transform: translateY(-1px);
+      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+    }
+  }
+}
+
   h2 {
     font-size: 24px;
     font-weight: 700;
@@ -36,6 +67,9 @@
       background: #f8f9fb;
       border-radius: 8px;
     }
+      .mat-select {
+    text-transform: capitalize; // Durum yazılarının baş harfi büyük
+  }
   }
 
   .date-row {
@@ -85,7 +119,10 @@
       text-overflow: ellipsis;
     }
   }
-
+html,body{
+   overflow-y:hidden;
+  
+}
 
   .photo-preview {
     margin-top: 10px;
@@ -96,6 +133,74 @@
       box-shadow: 0 0 6px rgba(0,0,0,0.15);
     }
   }
+
+}
+.update-dialog {
+  background: #fff;
+  padding: 20px;
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+  max-width: 450px;
+  margin: 20px auto;
+  animation: fadeIn 0.3s ease;
+  font-family: 'Roboto', sans-serif;
+
+  h3 {
+    margin-bottom: 16px;
+    font-size: 18px;
+    font-weight: 700;
+    color: #2c3e50;
+    text-align: center;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    li {
+      background: #f8f9fb;
+      border-radius: 8px;
+      padding: 10px 14px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      border: 1px solid transparent;
+
+      &:hover {
+        background: #e6f7ff;
+        border-color: #4b8cff;
+        transform: translateY(-1px);
+      }
+    }
+  }
+
+  button {
+    background-color: #34495e;
+    color: #fff;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 14px;
+    margin-top: 14px;
+    border: none;
+    cursor: pointer;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    transition: background-color 0.25s ease;
+
+    &:hover {
+      background-color: #2c3e50;
+    }
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.96); }
+  to { opacity: 1; transform: scale(1); }
+}
 
   .button-group {
     display: flex;
@@ -113,7 +218,7 @@
       transition: all 0.25s ease;
 
       &.mat-primary {
-        background-color: #4b8cff;
+        background-color: #591ae0;
         color: #fff;
         &:hover {
           background-color: #3b73d1;
@@ -130,4 +235,110 @@
       }
     }
   }
+  /* Overlay */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.4);
+  backdrop-filter: blur(4px); /* arka plan blur */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 3000;
+  animation: fadeIn 0.3s ease;
 }
+
+/* Modal kutusu */
+.update-dialog {
+  background: #fff;
+  padding: 20px;
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+  max-width: 450px;
+  width: 90%;
+  animation: scaleIn 0.25s ease;
+  font-family: 'Roboto', sans-serif;
+
+  h3 {
+    margin-bottom: 16px;
+    font-size: 18px;
+    font-weight: 700;
+    color: #2c3e50;
+    text-align: center;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    li {
+      background: #f8f9fb;
+      border-radius: 8px;
+      padding: 10px 14px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      border: 1px solid transparent;
+
+      &:hover {
+        background: #e6f7ff;
+        border-color: #4b8cff;
+        transform: translateY(-1px);
+      }
+    }
+  }
+
+  button {
+    background-color: #34385e;
+    color: #fff;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 14px;
+    margin-top: 14px;
+    border: none;
+    cursor: pointer;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    transition: background-color 0.25s ease;
+
+    &:hover {
+      background-color: #2c3e50;
+    }
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes scaleIn {
+  from { transform: scale(0.96); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+mat-form-field input {
+  text-transform: capitalize;
+}
+/* component.scss dosyanıza ekleyin */
+::ng-deep .error-snackbar {
+  background-color: #f44336 !important;
+  color: white !important;
+}
+
+::ng-deep .success-snackbar {
+  background-color: #4caf50 !important;
+  color: white !important;
+}
+
+::ng-deep .warning-snackbar {
+  background-color: #ff9800 !important;
+  color: white !important;
+}
+

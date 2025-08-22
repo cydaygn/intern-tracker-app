@@ -55,37 +55,51 @@ export class InternListComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     window.removeEventListener('force-refresh', this.refreshHandler);
   }
-
- 
-  async loadInternsFromDatabase() {
-    this.isLoading = true;
-    try {
-      await this.dbService.ensureInitialized();
-
-      let path = '';
-      let count = -1;
-      try {
-        [path, count] = await this.dbService.debugSnapshot();
-      } catch {}
-      if (count >= 0) console.log('[DB] path:', path, 'count:', count);
-
-      const result: Intern[] = await this.dbService.getInterns();
-
-      
-      this.zone.run(() => {
-        this.interns = result ?? [];
-        this.filteredInterns = [...this.interns];
-        this.applyFilters(); 
-      });
-
-      console.log('Stajyerler yüklendi:', this.interns.length);
-    } catch (err) {
-      console.error('Stajyerleri yükleme hatası:', err);
-      this.openDialog('Error', 'Failed to load intern list: ' + (err as any).message, 'error');
-    } finally {
-      this.isLoading = false;
-    }
+ capitalizeFirst(str: string) {
+    if (!str) return '';
+    return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
   }
+ 
+applyFilters() {
+  const nameFilter   = (this.filters.name ?? '').trim().toLowerCase();
+  const schoolFilter = (this.filters.school ?? '').trim().toLowerCase();
+  const periodFilter = (this.filters.period ?? '').trim();
+  const statusFilter = (this.filters.projectStatus ?? '').trim().toLowerCase();
+  const tagFilter    = (this.filters.tag ?? '').trim().toLowerCase();
+
+  this.filteredInterns = this.interns.filter((intern) => {
+    const fullName = `${intern.first_name ?? ''} ${intern.last_name ?? ''}`.toLowerCase();
+    const school   = (intern.school ?? '').toLowerCase();
+    const start    = (intern.start_date ?? ''); 
+    const status   = (intern.status ?? '').toLowerCase();
+   
+    let okPeriod = true;
+    if (periodFilter && start) {
+      const [year, monthStr] = start.split("-");
+      const month = parseInt(monthStr, 10);
+      let season = '';
+      if ([6, 7, 8].includes(month)) season = 'Yaz';
+      else if ([3, 4, 5].includes(month)) season = 'Bahar';
+      else if ([9, 10, 11].includes(month)) season = 'Güz';
+      else season = 'Kış';
+      okPeriod = `${year}-${season}` === periodFilter;
+    }
+
+    return (
+      fullName.includes(nameFilter) &&
+      school.includes(schoolFilter) &&
+      okPeriod &&
+      (statusFilter ? status === statusFilter : true) 
+      );
+  }).map((intern) => ({
+    ...intern,
+    status: (intern.status ?? '').toUpperCase()
+  }));
+}
+onFiltersChanged(newFilters: Filters) {
+  this.filters = newFilters;
+  this.applyFilters();
+}
 
 async deleteIntern(intern: Intern) {
   const ref = this.openDialog(
@@ -112,37 +126,68 @@ async deleteIntern(intern: Intern) {
     }
   });
 }
+async loadInternsFromDatabase() {
+  this.isLoading = true;
+  try {
+    await this.dbService.ensureInitialized();
 
+    let path = '';
+    let count = -1;
+    try {
+      [path, count] = await this.dbService.debugSnapshot();
+    } catch {}
+    if (count >= 0) console.log('[DB] path:', path, 'count:', count);
 
-  
-  applyFilters() {
-    
-    const nameFilter   = (this.filters.name ?? '').trim().toLowerCase();
-    const schoolFilter = (this.filters.school ?? '').trim().toLowerCase();
-    const periodFilter = (this.filters.period ?? '').trim(); // 'YYYY' veya 'YYYY-MM' gibi TEXT
-    const statusFilter = (this.filters.projectStatus ?? '').trim().toLowerCase();
+    const result: Intern[] = await this.dbService.getInterns();
 
-    if (!nameFilter && !schoolFilter && !periodFilter && !statusFilter) {
+    this.zone.run(() => {
+      this.interns = result ?? [];
       this.filteredInterns = [...this.interns];
-      return;
-    }
-
-    this.filteredInterns = this.interns.filter((intern) => {
-      const fullName = `${intern.first_name ?? ''} ${intern.last_name ?? ''}`.toLowerCase();
-      const school   = (intern.school ?? '').toLowerCase();
-      const start    = (intern.start_date ?? ''); // ISO bekleniyor: YYYY-MM-DD
-      const status   = (intern.status ?? '').toLowerCase();
-
-      const okName   = fullName.includes(nameFilter);
-      const okSchool = school.includes(schoolFilter);
-      const okPeriod = periodFilter ? start.includes(periodFilter) : true;
-      const okStatus = statusFilter ? status === statusFilter : true;
-
-      return okName && okSchool && okPeriod && okStatus;
+      this.populateAvailablePeriods(); 
+      this.applyFilters();
     });
+
+    console.log('Stajyerler yüklendi:', this.interns.length);
+  } catch (err) {
+    console.error('Stajyerleri yükleme hatası:', err);
+    this.openDialog(
+      'Error',
+      'Failed to load intern list: ' + (err as any).message,
+      'error'
+    );
+  } finally {
+    this.isLoading = false;
   }
+}
+
+
+populateAvailablePeriods() {
+  const periods = new Set<string>();
+
+  this.interns.forEach(intern => {
+    if (!intern.start_date) return;
+
+    const [year, monthStr] = intern.start_date.split("-");
+    const month = parseInt(monthStr, 10);
+
+    let season = '';
+    if ([6, 7, 8].includes(month)) season = 'Yaz';
+    else if ([3, 4, 5].includes(month)) season = 'Bahar';
+    else if ([9, 10, 11].includes(month)) season = 'Güz';
+    else season = 'Kış';
+
+    periods.add(`${year}-${season}`);
+  });
 
  
+  this.availablePeriods = Array.from(periods).map(val => ({
+    value: val,
+    label: val.replace('-', ' ')
+  }));
+}
+
+availablePeriods: { value: string, label: string }[] = [];
+
   async saveView() {
     const viewName = 'Kaydedilen Görünüm ' + (this.savedViews.length + 1);
     this.savedViews.push({ name: viewName, filters: { ...this.filters } });

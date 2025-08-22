@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Output } from '@angular/core';
+import { Window } from '@tauri-apps/api/window';
 
 @Component({
   selector: 'app-sidebar',
@@ -10,5 +11,10 @@ export class SidebarComponent {
 
   onLinkClick() {
     this.linkClicked.emit();
+  }
+  
+  async exitApp() {
+    const currentWindow = Window.getCurrent();
+    await currentWindow.close();
   }
 }

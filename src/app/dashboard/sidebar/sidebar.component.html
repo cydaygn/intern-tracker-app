@@ -44,14 +44,11 @@
       <mat-icon>star_rate</mat-icon><span>Değerlendirmeler</span>
     </a>
   </li>
-
-  
-  <li>
-    <a class="sidebar-btn"
-       routerLink="/dashboard/settings"
-       routerLinkActive="active-link"
-       (click)="onLinkClick()">
-      <mat-icon>settings</mat-icon><span>Ayarlar</span>
-    </a>
+<li class="sidebar-exit">
+    <button class="sidebar-btn" (click)="exitApp()">
+      <mat-icon>exit_to_app</mat-icon><span>Çıkış</span>
+    </button>
   </li>
+  
+  
 </ul>
