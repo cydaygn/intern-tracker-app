@@ -7,6 +7,8 @@ import { MatDatepicker } from '@angular/material/datepicker';
 import { formatDate } from '@angular/common';
 import { DatabaseService } from '../../services/database.service';
 import { Intern } from '../../models/intern.model';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { TranslateService } from '@ngx-translate/core';
 
 import { desktopDir, join } from '@tauri-apps/api/path';
 
@@ -58,7 +60,9 @@ export class InternFormComponent implements OnInit, AfterViewInit {
 
   constructor(
     private router: Router,
-    private dbService: DatabaseService
+    private dbService: DatabaseService,
+    private snackBar: MatSnackBar,
+    private translate: TranslateService
   ) {}
 
   acceptImg: string[] = ['image/png', 'image/jpeg', 'image/webp', 'image/gif'];
@@ -132,8 +136,18 @@ export class InternFormComponent implements OnInit, AfterViewInit {
     const input = evt.target as HTMLInputElement;
     const file = input.files?.[0]; if (!file) return;
 
-    if (!this.acceptImg.includes(file.type)) { alert('PNG/JPG/WEBP/GIF seçin.'); input.value=''; return; }
-    if (file.size > this.maxSizeMB * 1024 * 1024) { alert(`Foto ${this.maxSizeMB} MB üstünde olamaz.`); input.value=''; return; }
+    if (!this.acceptImg.includes(file.type)) {
+      this.snackBar.open(this.translate.instant('internForm.messages.photoType'), this.translate.instant('common.ok'), {
+        duration: 3000, panelClass: ['warning-snackbar'], horizontalPosition: 'center', verticalPosition: 'top'
+      });
+      input.value=''; return;
+    }
+    if (file.size > this.maxSizeMB * 1024 * 1024) {
+      this.snackBar.open(this.translate.instant('internForm.messages.photoTooBig', { size: this.maxSizeMB }), this.translate.instant('common.ok'), {
+        duration: 3000, panelClass: ['warning-snackbar'], horizontalPosition: 'center', verticalPosition: 'top'
+      });
+      input.value=''; return;
+    }
 
     this.intern.photoFile = file;
     this.intern.photo_name = this.sanitizeName(file.name);
@@ -144,23 +158,50 @@ export class InternFormComponent implements OnInit, AfterViewInit {
     const input = evt.target as HTMLInputElement;
     const file = input.files?.[0]; if (!file) return;
 
-    if (!this.acceptCv.includes(file.type)) { alert('PDF/DOC/DOCX seçin.'); input.value=''; return; }
-    if (file.size > this.maxSizeMB * 1024 * 1024) { alert(`CV ${this.maxSizeMB} MB üstünde olamaz.`); input.value=''; return; }
+    if (!this.acceptCv.includes(file.type)) {
+      this.snackBar.open(this.translate.instant('internForm.messages.cvType'), this.translate.instant('common.ok'), {
+        duration: 3000, panelClass: ['warning-snackbar'], horizontalPosition: 'center', verticalPosition: 'top'
+      });
+      input.value=''; return;
+    }
+    if (file.size > this.maxSizeMB * 1024 * 1024) {
+      this.snackBar.open(this.translate.instant('internForm.messages.cvTooBig', { size: this.maxSizeMB }), this.translate.instant('common.ok'), {
+        duration: 3000, panelClass: ['warning-snackbar'], horizontalPosition: 'center', verticalPosition: 'top'
+      });
+      input.value=''; return;
+    }
 
     this.intern.cvFile = file;
     this.intern.cv_name = this.sanitizeName(file.name);
     this.intern.cv_path = null; // yeni dosya seçildi
   }
 
-  // -------- kaydet --------
+
   onFormSubmit(e: Event) { e.preventDefault(); this.saveIntern(); }
   onSubmitClick() { this.saveIntern(); }
 
   async saveIntern() {
-    if (!this.intern.first_name || !this.intern.last_name || !this.intern.school || !this.intern.start_date) {
-      alert('Lütfen zorunlu alanları doldurun!'); return;
+   if (
+  !this.intern.first_name ||
+  !this.intern.last_name ||
+  !this.intern.school ||
+  !this.intern.start_date ||
+  !this.intern.status ||
+  !this.intern.contact ||
+  !this.intern.email
+) {
+  this.snackBar.open(this.translate.instant('internForm.messages.fillRequired'), this.translate.instant('common.ok'), {
+    duration: 3000, panelClass: ['warning-snackbar'], horizontalPosition: 'center', verticalPosition: 'top'
+  });
+  return;
+}
+
+    if (!this.isInitialized) {
+      this.snackBar.open(this.translate.instant('internForm.messages.dbNotReady'), this.translate.instant('common.ok'), {
+        duration: 3000, panelClass: ['error-snackbar'], horizontalPosition: 'center', verticalPosition: 'top'
+      });
+      return;
     }
-    if (!this.isInitialized) { alert('Database servisi hazır değil!'); return; }
 
     try {
       const basePayload: any = {
@@ -202,7 +243,9 @@ export class InternFormComponent implements OnInit, AfterViewInit {
         }
 
         await this.dbService.updateIntern(id, basePayload);
-        alert('Stajyer güncellendi!');
+        this.snackBar.open(this.translate.instant('internForm.messages.updated'), this.translate.instant('common.ok'), {
+          duration: 2500, panelClass: ['success-snackbar'], horizontalPosition: 'center', verticalPosition: 'top'
+        });
       } else {
         // önce kaydı oluşturup id al
         const newId = await this.dbService.addIntern({ ...basePayload, cv_path: null, photo_path: null });
@@ -228,14 +271,18 @@ export class InternFormComponent implements OnInit, AfterViewInit {
 
         // yolları DB’ye yaz
         await this.dbService.updateIntern(newId, basePayload);
-        alert('Stajyer eklendi!');
+        this.snackBar.open(this.translate.instant('internForm.messages.added'), this.translate.instant('common.ok'), {
+          duration: 2500, panelClass: ['success-snackbar'], horizontalPosition: 'center', verticalPosition: 'top'
+        });
       }
 
       await this.router.navigate(['/dashboard/intern-list']);
       setTimeout(() => window.dispatchEvent(new Event('force-refresh')), 50);
     } catch (err: any) {
       console.error('Stajyer kaydetme hatası:', err);
-      alert('İşlem sırasında hata: ' + (err?.message ?? err));
+      this.snackBar.open(this.translate.instant('internForm.messages.saveError'), this.translate.instant('common.ok'), {
+        duration: 4000, panelClass: ['error-snackbar'], horizontalPosition: 'center', verticalPosition: 'top'
+      });
     }
   }
 }

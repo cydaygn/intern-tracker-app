@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { TranslateService } from '@ngx-translate/core';
 import { DatabaseService, Assignment } from '../../services/database.service';
 import { Intern } from '../../models/intern.model';
 import { open, message } from '@tauri-apps/plugin-dialog';
@@ -12,12 +14,13 @@ import { readFile } from '@tauri-apps/plugin-fs';
 export class AssignProjectComponent implements OnInit {
   interns: Intern[] = [];
 
+  // Store stable keys; render labels via i18n in template
   projectTypes: string[] = [
-    'Web Geliştirme',
-    'Mobil Uygulama',
-    'Veri Analizi',
-    'Yapay Zeka',
-    'Diğer'
+    'webDev',
+    'mobileApp',
+    'dataAnalysis',
+    'ai',
+    'other'
   ];
   isTauri = typeof (window as any).__TAURI__ !== 'undefined';
 
@@ -35,7 +38,11 @@ export class AssignProjectComponent implements OnInit {
   errorMsg = '';
   lastInsertedId: number | null = null;
 
-  constructor(private db: DatabaseService) {}
+  constructor(
+    private db: DatabaseService,
+    private snackBar: MatSnackBar,
+    private translate: TranslateService
+  ) {}
 
   async ngOnInit() {
     await this.yukleStajyerler();
@@ -45,7 +52,12 @@ export class AssignProjectComponent implements OnInit {
   async openPdfWithTauri() {
     try {
       if (!this.isTauri) {
-        alert('Bu buton Tauri penceresinde çalışır. Web için dosya inputunu kullanın.');
+        this.snackBar.open(this.translate.instant('assign.messages.onlyTauri'), this.translate.instant('common.ok'), {
+          duration: 4000,
+          panelClass: ['warning-snackbar'],
+          horizontalPosition: 'center',
+          verticalPosition: 'top'
+        });
         return;
       }
       const selected = await open({
@@ -61,17 +73,27 @@ export class AssignProjectComponent implements OnInit {
     
       const arr = Array.from(bytes);
       const savedPath = `C:/intern_files/projects/${Date.now()}_${fileName}`;
-      await this.db.saveFile(savedPath, arr);
+      await this.db.saveFile(savedPath, arr as number[]);
 
      
       const ab = new ArrayBuffer(bytes.byteLength);
       new Uint8Array(ab).set(bytes);
       this.pdfDosyasi = new File([ab], fileName, { type: 'application/pdf' });
 
-      await message('Dosya kopyalandı.', { title: 'Bilgi', kind: 'info' });
+      this.snackBar.open(this.translate.instant('assign.messages.fileCopied'), this.translate.instant('common.ok'), {
+        duration: 3000,
+        panelClass: ['success-snackbar'],
+        horizontalPosition: 'center',
+        verticalPosition: 'top'
+      });
     } catch (err: any) {
       console.error('PDF seçme/kaydetme hatası:', err);
-      alert(`Dosya işlemi başarısız: ${err?.message ?? err}`);
+      this.snackBar.open(this.translate.instant('assign.messages.fileError'), this.translate.instant('common.ok'), {
+        duration: 5000,
+        panelClass: ['error-snackbar'],
+        horizontalPosition: 'center',
+        verticalPosition: 'top'
+      });
     }
   }
 
@@ -125,7 +147,12 @@ export class AssignProjectComponent implements OnInit {
         !this.selectedProjectType ||
         !this.taskDescription.trim() ||
         !this.dueDate) {
-      alert('Lütfen tüm zorunlu alanları doldurun!');
+      this.snackBar.open(this.translate.instant('assign.messages.fillRequired'), this.translate.instant('common.ok'), {
+        duration: 3000,
+        panelClass: ['warning-snackbar'],
+        horizontalPosition: 'center',
+        verticalPosition: 'top'
+      });
       return;
     }
 
@@ -152,11 +179,18 @@ export class AssignProjectComponent implements OnInit {
       this.lastInsertedId = id;
       console.log('[ASSIGN] eklendi id =', id);
 
-      alert('Proje başarıyla atandı!');
+      this.snackBar.open(this.translate.instant('assign.messages.assigned'), this.translate.instant('common.ok'), {
+        duration: 3000,
+        panelClass: ['success-snackbar'],
+        horizontalPosition: 'center',
+        verticalPosition: 'top'
+      });
       this.cancelAssign();
     } catch (e: any) {
       console.error('Proje atama hatası:', e);
-      alert('Proje atanamadı: ' + (e?.message ?? e));
+      this.snackBar.open(this.translate.instant('assign.messages.assignError'), this.translate.instant('common.ok'), {
+        duration: 4000, panelClass: ['error-snackbar'], horizontalPosition: 'center', verticalPosition: 'top'
+      });
     } finally {
       this.isLoading = false;
     }

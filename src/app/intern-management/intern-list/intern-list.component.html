@@ -3,20 +3,27 @@
   (filterChanged)="onFiltersChanged($event)">
 </app-intern-filter>
 
-<div class="total-count">
-  Toplam Stajyer Sayısı: {{ filteredInterns.length }}
-</div>
+<div class="list-header">
+  <div class="total-count">
+    {{ 'internList.totalCount' | translate }}: {{ filteredInterns.length }}
+  </div>
 
+<button mat-raised-button class="update-cta" (click)="goToUpdate()">
+  <mat-icon>edit</mat-icon>
+  <span>{{ 'internList.updateIntern' | translate }}</span>
+</button>
+
+</div>
 <table>
   <thead>
     <tr>
-      <th>İsim</th>
-      <th>Okul</th>
-      <th>Bölüm</th>
-      <th>Başlangıç Tarihi</th>
-      <th>Bitiş Tarihi</th>
-      <th>Durum</th>
-      <th>İşlem</th>
+      <th>{{ 'internList.name' | translate }}</th>
+      <th>{{ 'internList.school' | translate }}</th>
+      <th>{{ 'internList.department' | translate }}</th>
+      <th>{{ 'internList.startDate' | translate }}</th>
+      <th>{{ 'internList.endDate' | translate }}</th>
+      <th>{{ 'internList.status' | translate }}</th>
+      <th>{{ 'internList.actions' | translate }}</th>
     </tr>
   </thead>
   <tbody>

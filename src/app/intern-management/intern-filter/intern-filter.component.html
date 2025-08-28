@@ -1,47 +1,43 @@
 <div class="filter-panel">
   <mat-form-field appearance="fill" class="full-width">
-    <mat-label>İsim</mat-label>
-    <input matInput placeholder="İsim ara"
+    <mat-label>{{ 'filters.name' | translate }}</mat-label>
+    <input matInput [placeholder]="('filters.searchName' | translate)"
       [(ngModel)]="nameFilter"
       (ngModelChange)="onFilterChange()" />
   </mat-form-field>
-
   <mat-form-field appearance="fill" class="full-width">
-    <mat-label>Okul</mat-label>
-    <input matInput placeholder="Okul ara"
+    <mat-label>{{ 'filters.school' | translate }}</mat-label>
+    <input matInput [placeholder]="('filters.searchSchool' | translate)"
       [(ngModel)]="schoolFilter"
       (ngModelChange)="onFilterChange()" />
   </mat-form-field>
-
   <mat-form-field appearance="fill" class="full-width">
-    <mat-label>Dönem</mat-label>
+    <mat-label>{{ 'filters.period' | translate }}</mat-label>
     <mat-select [(value)]="periodFilter" (selectionChange)="onFilterChange()">
-      <mat-option value="">Tümü</mat-option>
+      <mat-option value="">{{ 'filters.all' | translate }}</mat-option>
       <mat-option *ngFor="let p of periods" [value]="p.value">
-        {{ p.label }}
+        {{ getPeriodLabel(p.value) }}
       </mat-option>
     </mat-select>
   </mat-form-field>
-
   <mat-form-field appearance="fill" class="full-width">
-    <mat-label>Proje Durumu</mat-label>
+    <mat-label>{{ 'filters.projectStatus' | translate }}</mat-label>
     <mat-select [(value)]="projectStatusFilter" (selectionChange)="onFilterChange()">
-      <mat-option value="">Tümü</mat-option>
-      <mat-option *ngFor="let status of projectStatuses" [value]="status.toLowerCase()">
-        {{ status }}
+      <mat-option value="">{{ 'filters.all' | translate }}</mat-option>
+      <mat-option *ngFor="let status of projectStatuses" [value]="status">
+        {{ getStatusLabel(status) }}
       </mat-option>
     </mat-select>
   </mat-form-field>
-
   <mat-form-field appearance="fill" class="full-width">
-    <mat-label>Etiket</mat-label>
+    <mat-label>{{ 'filters.tag' | translate }}</mat-label>
     <mat-select [(value)]="tagFilter" (selectionChange)="onFilterChange()">
-      <mat-option value="">Tümü</mat-option>
-      <mat-option *ngFor="let tag of tags" [value]="tag.toLowerCase()">
-        {{ tag }}
+      <mat-option value="">{{ 'filters.all' | translate }}</mat-option>
+      <mat-option *ngFor="let tag of tags" [value]="tag">
+        {{ getTagLabel(tag) }}
       </mat-option>
     </mat-select>
   </mat-form-field>
 
-  <button mat-button color="warn" (click)="clearFilters()">Temizle</button>
+  <button mat-button color="warn" (click)="clearFilters()">{{ 'filters.clear' | translate }}</button>
 </div>

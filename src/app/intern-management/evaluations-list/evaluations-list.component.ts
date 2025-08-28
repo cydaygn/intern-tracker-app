@@ -46,7 +46,7 @@ export class EvaluationsListComponent implements OnInit {
 
           return {
             id: Number(i.id),
-            name: `${i.first_name ?? ''} ${i.last_name ?? ''}`.trim() || '(İsimsiz)',
+            name: this.titleCaseSpaces(`${i.first_name ?? ''} ${i.last_name ?? ''}`.trim() || '(İsimsiz)'),
             status
           } as InternListItem;
         });

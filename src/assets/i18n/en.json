@@ -1,4 +1,194 @@
 {
-    "dashboard": {},
-    "main": {}
+  "app": {
+    "title": "Intern Tracker Application"
+  },
+  "navbar": {
+    "menu": "Menu",
+    "minimize": "Minimize",
+    "maximize": "Maximize/Restore",
+    "close": "Close",
+    "lang_tr": "Turkish",
+    "lang_en": "English"
+  },
+  "sidebar": {
+    "home": "Home",
+    "interns": "Interns",
+    "addIntern": "Add New Intern",
+    "assignProject": "Assign Project",
+    "evaluations": "Evaluations",
+    "exit": "Exit"
+  },
+  "internList": {
+    "totalCount": "Total Interns",
+    "updateIntern": "Update Intern",
+    "name": "Name",
+    "school": "School",
+    "department": "Department",
+    "startDate": "Start Date",
+    "endDate": "End Date",
+    "status": "Status",
+    "actions": "Actions"
+  },
+  "filters": {
+    "name": "Name",
+    "searchName": "Search name",
+    "school": "School",
+    "searchSchool": "Search school",
+    "period": "Period",
+    "projectStatus": "Project Status",
+    "tag": "Tag",
+    "all": "All",
+    "clear": "Clear",
+    "statuses": {
+      "active": "Active",
+      "completed": "Completed",
+      "pending": "Pending"
+    },
+    "tags": {
+      "frontend": "Frontend",
+      "backend": "Backend",
+      "fullstack": "Fullstack"
+    },
+    "seasons": {
+      "Yaz": "Summer",
+      "Bahar": "Spring",
+      "Güz": "Autumn",
+      "Kış": "Winter"
+    }
+  },
+  "assign": {
+    "title": "Project Assignment Module",
+    "selectIntern": "Select Intern",
+    "selectInternPlaceholder": "Select intern",
+    "noInterns": "No interns registered",
+    "selectProjectType": "Select Project Type",
+    "selectProjectTypePlaceholder": "Select project type",
+    "projectTypes": {
+      "webDev": "Web Development",
+      "mobileApp": "Mobile Application",
+      "dataAnalysis": "Data Analysis",
+      "ai": "Artificial Intelligence",
+      "other": "Other"
+    },
+    "taskDescription": "Task Description",
+    "selectFile": "Select File",
+    "clearSelection": "Clear selection",
+    "dueDate": "Due Date",
+    "status": "Status",
+    "status_planned": "Planned",
+    "status_in_progress": "In Progress",
+    "status_completed": "Completed",
+    "assignProject": "Assign Project",
+    "messages": {
+      "onlyTauri": "This button works in a Tauri window. Use file input on web.",
+      "fileCopied": "File copied.",
+      "fileError": "File operation failed.",
+      "fillRequired": "Please fill in all required fields!",
+      "assigned": "Project assigned successfully!",
+      "assignError": "Project assignment failed."
+    }
+  },
+  "dashboard": {},
+  "main": {},
+  "internForm": {
+    "title": "Add New Intern",
+    "selectOrUpdate": "Select / Update Intern",
+    "selectToUpdate": "Select Intern to Update",
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "school": "School",
+    "department": "Department",
+    "status": "Status",
+    "status_active": "Active",
+    "status_inactive": "Inactive",
+    "status_completed": "Completed",
+    "phone": "Phone",
+    "email": "Email",
+    "startDate": "Start Date",
+    "endDate": "End Date",
+    "photoUpload": "Upload Photo",
+    "selectPhoto": "Select Photo",
+    "cvUpload": "Upload CV (PDF, DOC, DOCX)",
+    "selectCv": "Select CV",
+    "add": "Add",
+    "update": "Update",
+    "errors": {
+      "firstNameRequired": "First name is required.",
+      "lastNameRequired": "Last name is required.",
+      "schoolRequired": "School is required.",
+      "statusRequired": "Status is required.",
+      "phoneDigits": "Phone number must contain digits only.",
+      "emailValid": "Please enter a valid email.",
+      "startDateRequired": "Start date is required."
+    },
+    "messages": {
+      "fillRequired": "Please fill in all required fields!",
+      "dbNotReady": "Database service is not ready!",
+      "updated": "Intern updated successfully!",
+      "added": "Intern added successfully!",
+      "saveError": "An error occurred during the operation.",
+      "photoType": "Please select PNG/JPG/WEBP/GIF.",
+      "photoTooBig": "Photo cannot exceed {{size}} MB.",
+      "cvType": "Please select PDF/DOC/DOCX.",
+      "cvTooBig": "CV cannot exceed {{size}} MB."
+    }
+  },
+  "evaluation": {
+    "title": "Intern Evaluation",
+    "listTitle": "Intern Evaluations",
+    "selectPlaceholder": "Select intern",
+    "currentNotes": "Current Scores",
+    "addOrUpdate": "Add / Update Evaluation",
+    "criteria": "Evaluation Criteria",
+    "score": "Score",
+    "save": "Save",
+    "noInternsHelp": "No interns found. Please add an intern first.",
+    "labels": {
+      "technical": "Technical Knowledge",
+      "communication": "Communication",
+      "teamwork": "Teamwork",
+      "responsibility": "Responsibility",
+      "timeManagement": "Time Management"
+    },
+    "messages": {
+      "selectIntern": "Please select an intern.",
+      "selectCriteria": "Please select a criteria.",
+      "invalidIntern": "Invalid intern selection.",
+      "scoreRange": "Score must be between 0–100.",
+      "saveError": "An error occurred while saving the evaluation."
+    }
+  },
+  "home": {
+    "welcome": "Welcome",
+    "subtitle": "Welcome to Intern Tracker Application. Use quick actions below.",
+    "quickActions": "Quick actions",
+    "addIntern": "Add New Intern",
+    "assignProject": "Assign Project",
+    "evaluation": "Evaluation",
+    "cards": {
+      "addIntern": {
+        "title": "Add New Intern",
+        "desc": "Create a new intern record."
+      },
+      "assign": {
+        "title": "Assign Project",
+        "desc": "Assign tasks and projects to interns."
+      },
+      "evaluation": {
+        "title": "Evaluation",
+        "desc": "Enter and review performance scores."
+      }
+    }
+  },
+  "common": {
+    "close": "Close",
+    "ok": "OK",
+    "loading": "Loading...",
+    "select": "Select",
+    "save": "Save",
+    "cancel": "Cancel",
+    "details": "Details",
+    "noStatus": "no status",
+    "unnamed": "Unnamed"
+  }
 }

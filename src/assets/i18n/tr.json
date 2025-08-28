@@ -1,4 +1,194 @@
 {
-    "dashboard": {},
-    "main": {}
+  "app": {
+    "title": "Intern Tracker Uygulaması"
+  },
+  "navbar": {
+    "menu": "Menü",
+    "minimize": "Simge durumuna küçült",
+    "maximize": "Büyüt/Geri al",
+    "close": "Kapat",
+    "lang_tr": "Türkçe",
+    "lang_en": "İngilizce"
+  },
+  "sidebar": {
+    "home": "Anasayfa",
+    "interns": "Stajyerler",
+    "addIntern": "Yeni Stajyer Ekle",
+    "assignProject": "Proje Atama",
+    "evaluations": "Değerlendirmeler",
+    "exit": "Çıkış"
+  },
+  "internList": {
+    "totalCount": "Toplam Stajyer Sayısı",
+    "updateIntern": "Stajyer Güncelle",
+    "name": "İsim",
+    "school": "Okul",
+    "department": "Bölüm",
+    "startDate": "Başlangıç Tarihi",
+    "endDate": "Bitiş Tarihi",
+    "status": "Durum",
+    "actions": "İşlem"
+  },
+  "filters": {
+    "name": "İsim",
+    "searchName": "İsim ara",
+    "school": "Okul",
+    "searchSchool": "Okul ara",
+    "period": "Dönem",
+    "projectStatus": "Proje Durumu",
+    "tag": "Etiket",
+    "all": "Tümü",
+    "clear": "Temizle",
+    "statuses": {
+      "active": "Aktif",
+      "completed": "Tamamlandı",
+      "pending": "Beklemede"
+    },
+    "tags": {
+      "frontend": "Frontend",
+      "backend": "Backend",
+      "fullstack": "Fullstack"
+    },
+    "seasons": {
+      "Yaz": "Yaz",
+      "Bahar": "Bahar",
+      "Güz": "Güz",
+      "Kış": "Kış"
+    }
+  },
+  "assign": {
+    "title": "Proje Atama Modülü",
+    "selectIntern": "Stajyer Seçin",
+    "selectInternPlaceholder": "Stajyer seçiniz",
+    "noInterns": "Kayıtlı stajyer yok",
+    "selectProjectType": "Proje Türü Seçin",
+    "selectProjectTypePlaceholder": "Proje türü seçiniz",
+    "projectTypes": {
+      "webDev": "Web Geliştirme",
+      "mobileApp": "Mobil Uygulama",
+      "dataAnalysis": "Veri Analizi",
+      "ai": "Yapay Zeka",
+      "other": "Diğer"
+    },
+    "taskDescription": "Görev Açıklaması",
+    "selectFile": "Dosya Seç",
+    "clearSelection": "Seçimi temizle",
+    "dueDate": "Teslim Tarihi",
+    "status": "Durum",
+    "status_planned": "Planlandı",
+    "status_in_progress": "Devam Ediyor",
+    "status_completed": "Tamamlandı",
+    "assignProject": "Projeyi Ata",
+    "messages": {
+      "onlyTauri": "Bu buton Tauri penceresinde çalışır. Web için dosya inputunu kullanın.",
+      "fileCopied": "Dosya kopyalandı.",
+      "fileError": "Dosya işlemi başarısız.",
+      "fillRequired": "Lütfen tüm zorunlu alanları doldurun!",
+      "assigned": "Proje başarıyla atandı!",
+      "assignError": "Proje atanamadı."
+    }
+  },
+  "dashboard": {},
+  "main": {},
+  "internForm": {
+    "title": "Yeni Stajyer Ekle",
+    "selectOrUpdate": "Stajyer Seç / Güncelle",
+    "selectToUpdate": "Güncellenecek Stajyeri Seç",
+    "firstName": "Ad",
+    "lastName": "Soyad",
+    "school": "Okul",
+    "department": "Bölüm",
+    "status": "Durum",
+    "status_active": "Aktif",
+    "status_inactive": "Pasif",
+    "status_completed": "Tamamlandı",
+    "phone": "Telefon",
+    "email": "E-posta",
+    "startDate": "Başlangıç Tarihi",
+    "endDate": "Bitiş Tarihi",
+    "photoUpload": "Fotoğraf Yükle",
+    "selectPhoto": "Fotoğraf Seç",
+    "cvUpload": "CV Yükle (PDF, DOC, DOCX)",
+    "selectCv": "CV Seç",
+    "add": "Ekle",
+    "update": "Güncelle",
+    "errors": {
+      "firstNameRequired": "Ad zorunludur.",
+      "lastNameRequired": "Soyad zorunludur.",
+      "schoolRequired": "Okul zorunludur.",
+      "statusRequired": "Durum seçimi zorunludur.",
+      "phoneDigits": "Telefon numarası sadece rakamlardan oluşmalıdır.",
+      "emailValid": "Geçerli bir e-posta giriniz.",
+      "startDateRequired": "Başlangıç tarihi zorunludur."
+    },
+    "messages": {
+      "fillRequired": "Lütfen tüm zorunlu alanları doldurun!",
+      "dbNotReady": "Database servisi hazır değil!",
+      "updated": "Stajyer güncellendi!",
+      "added": "Stajyer eklendi!",
+      "saveError": "İşlem sırasında hata oluştu.",
+      "photoType": "Lütfen PNG/JPG/WEBP/GIF seçin.",
+      "photoTooBig": "Fotoğraf {{size}} MB üstünde olamaz.",
+      "cvType": "Lütfen PDF/DOC/DOCX seçin.",
+      "cvTooBig": "CV {{size}} MB üstünde olamaz."
+    }
+  },
+  "evaluation": {
+    "title": "Stajyer Değerlendirmesi",
+    "listTitle": "Stajyer Değerlendirmeleri",
+    "selectPlaceholder": "Stajyer seçiniz",
+    "currentNotes": "Mevcut Notlar",
+    "addOrUpdate": "Yeni Değerlendirme Ekle / Güncelle",
+    "criteria": "Değerlendirme Kriteri",
+    "score": "Puan",
+    "save": "Kaydet",
+    "noInternsHelp": "Kayıtlı stajyer bulunamadı. Lütfen önce bir stajyer ekleyin.",
+    "labels": {
+      "technical": "Teknik Bilgi",
+      "communication": "İletişim",
+      "teamwork": "Takım Çalışması",
+      "responsibility": "Sorumluluk",
+      "timeManagement": "Zaman Yönetimi"
+    },
+    "messages": {
+      "selectIntern": "Lütfen bir stajyer seçiniz.",
+      "selectCriteria": "Lütfen bir kriter seçiniz.",
+      "invalidIntern": "Geçersiz stajyer seçimi.",
+      "scoreRange": "Puan 0–100 arası olmalıdır.",
+      "saveError": "Değerlendirme kaydedilirken hata oluştu."
+    }
+  },
+  "home": {
+    "welcome": "Hoşgeldiniz",
+    "subtitle": "Intern Tracker Application'a hoşgeldiniz. Hızlı işlemler için aşağıdan seçim yapabilirsiniz.",
+    "quickActions": "Hızlı işlemler",
+    "addIntern": "Yeni Stajyer Ekle",
+    "assignProject": "Proje Ata",
+    "evaluation": "Değerlendirme",
+    "cards": {
+      "addIntern": {
+        "title": "Yeni Stajyer Ekle",
+        "desc": "Sisteme yeni stajyer kaydı oluşturun."
+      },
+      "assign": {
+        "title": "Proje Ata",
+        "desc": "Stajyerlere görev ve proje atayın."
+      },
+      "evaluation": {
+        "title": "Değerlendirme",
+        "desc": "Performans puanlarını girin ve inceleyin."
+      }
+    }
+  },
+  "common": {
+    "close": "Kapat",
+    "ok": "Tamam",
+    "loading": "Yükleniyor...",
+    "select": "Seçiniz",
+    "save": "Kaydet",
+    "cancel": "İptal",
+    "details": "Detay",
+    "noStatus": "durum yok",
+    "unnamed": "İsimsiz"
+  }
 }

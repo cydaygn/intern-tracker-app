@@ -45,7 +45,9 @@ export class InternListComponent implements OnInit, OnDestroy {
     private dbService: DatabaseService,
     private zone: NgZone
   ) {}
-
+goToUpdate() {
+  this.router.navigate(['/dashboard/intern-form'], { queryParams: { update: 1 } });
+}
   async ngOnInit(): Promise<void> {
     window.addEventListener('force-refresh', this.refreshHandler);
     this.loadSavedViews();
@@ -64,8 +66,8 @@ applyFilters() {
   const nameFilter   = (this.filters.name ?? '').trim().toLowerCase();
   const schoolFilter = (this.filters.school ?? '').trim().toLowerCase();
   const periodFilter = (this.filters.period ?? '').trim();
-  const statusFilter = (this.filters.projectStatus ?? '').trim().toLowerCase();
-  const tagFilter    = (this.filters.tag ?? '').trim().toLowerCase();
+  const statusFilter = (this.filters.projectStatus ?? '').trim();
+  const tagFilter    = (this.filters.tag ?? '').trim();
 
   this.filteredInterns = this.interns.filter((intern) => {
     const fullName = `${intern.first_name ?? ''} ${intern.last_name ?? ''}`.toLowerCase();

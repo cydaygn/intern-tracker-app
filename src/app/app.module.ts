@@ -1,5 +1,6 @@
 import { NgModule, LOCALE_ID } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 import { AppComponent } from './app.component';
 import { MatOptionModule } from '@angular/material/core';
@@ -28,11 +29,18 @@ import { OverlayModule } from '@angular/cdk/overlay';
 import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatTableModule } from '@angular/material/table';
-import { DatabaseService } from './services/database.service';
 
+// EKSIK OLAN MODÜLLER - BUNLAR ÖNEMLİ!
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatListModule } from '@angular/material/list';
+import { MatCardModule } from '@angular/material/card';
+
+import { DatabaseService } from './services/database.service';
 import { DashboardComponent } from './dashboard/dashboard/dashboard.component';
 import { MainPageModule } from './main-page/main-page.module';
 import { InternManagementModule } from './intern-management/intern-management.module';
+import { MaterialModule } from'./material.module'; // TEK IMPORT!
 
 import { DataService } from './services/data.service';
 import { ThemeService } from './services/theme.service';
@@ -70,6 +78,7 @@ export const TR_DATE_FORMATS: MatDateFormats = {
     DialogComponent,
   ],
   imports: [
+    MatSlideToggleModule,
     MatOptionModule,
     CommonModule,
     BrowserModule,
@@ -89,6 +98,8 @@ export const TR_DATE_FORMATS: MatDateFormats = {
         deps: [HttpClient],
       },
     }),
+    MaterialModule,
+    // Material UI Modüller
     MatIconModule,
     MatMenuModule,
     MatButtonModule,
@@ -101,6 +112,12 @@ export const TR_DATE_FORMATS: MatDateFormats = {
     MatBottomSheetModule,
     MatChipsModule,
     MatTableModule,
+    
+    // EKSIK MODÜLLER EKLENDI
+    MatToolbarModule,
+    MatSidenavModule,
+    MatListModule,
+    MatCardModule,
   ],
   providers: [
     DataService,

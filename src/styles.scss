@@ -1,5 +1,5 @@
 @use '@angular/material' as mat;
-
+@include mat.core();
 $primary: mat.define-palette(mat.$indigo-palette);
 $accent:  mat.define-palette(mat.$pink-palette, A200, A100, A400);
 $warn:    mat.define-palette(mat.$red-palette);
@@ -9,16 +9,105 @@ $theme: mat.define-light-theme((
   typography: mat.define-typography-config(),
   density: 0
 ));
-
-@include mat.core();
-@include mat.core-theme($theme);
 @include mat.all-component-themes($theme);
 
-/* Genel stiller */
-.cdk-overlay-container{ z-index:9999 !important; position:fixed !important; top:0; left:0; width:100%; height:100%; overflow:auto; -ms-overflow-style:none; scrollbar-width:none; }
-.mat-datepicker-panel{ z-index:10000 !important; }
+:root {
+  --brand1: #5e35b1;
+  --brand2: #7c4dff;
+  --bg-light: #f6f7fb;
+  --text-light: #1e2230;
+  --muted-light: #6a6f85;
+  --bg-dark: #0b0d1a;
+  --text-dark: #e9e9f1;
+  --muted-dark: #a8a8c2;
+  --radius: 14px;
+  --radius-sm: 10px;
+  --space: 16px;
+  --space-lg: 24px;
+}
 
-html, body { height:100%; }
-body { margin:0; font-family: Roboto, "Helvetica Neue", sans-serif; background:#f6f7fb; }
-* { font-family: inherit; }
-body::-webkit-scrollbar { display:none; }
+
+html, body {
+  height: 100%;
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  background: var(--bg-light);
+}
+* { box-sizing: border-box; font-family: inherit; }
+body::-webkit-scrollbar { display: none; }
+
+
+.cdk-overlay-container {
+  z-index: 9999 !important;
+  position: fixed !important;
+  inset: 0;
+  overflow: auto;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.mat-datepicker-panel { z-index: 10000 !important; }
+.mat-toolbar { background: var(--brand1) !important; color: #fff !important; }
+.mat-sidenav { background: var(--bg-light) !important; }
+.mat-button, .mat-raised-button, .mat-icon-button { border-radius: var(--radius-sm) !important; }
+.mat-form-field .mat-form-field-wrapper { border-radius: var(--radius-sm); }
+
+
+body { user-select: none; -webkit-user-select: none; }
+.material-icons {
+  font-family: 'Material Icons' !important;
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  font-feature-settings: 'liga';
+  -webkit-font-feature-settings: 'liga';
+  -webkit-font-smoothing: antialiased;
+}
+
+
+app-root, .app-shell, .mat-sidenav-container {
+  border-radius: var(--radius);
+  overflow: hidden; 
+  box-shadow: 0 4px 16px rgba(0,0,0,0.2); 
+}
+
+html { scrollbar-gutter: stable both-edges; }
+
+body { overflow-y: auto; }
+
+body.sidenav-lock {
+  overflow: hidden;
+  padding-right: var(--sbw, 0px); 
+}
+html {
+  scrollbar-gutter: stable both-edges;
+}
+
+body {
+  overflow-y: auto;
+  margin: 0;
+  transition: padding-right 0.2s ease;
+}
+
+.sidenav-open {
+  overflow: hidden;
+  padding-right: 17px;
+}
+
+.sidenav-open .content {
+  transform: translateX(8.5px);
+  transition: transform 0.2s ease;
+}
+
+.sidenav-open table,
+.sidenav-open .filter-panel,
+.sidenav-open .list-header {
+  transform: translateX(8.5px);
+  transition: transform 0.2s ease;
+}

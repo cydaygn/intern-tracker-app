@@ -1,29 +1,28 @@
 <div class="home-container">
 <div class="yazi">
-    <h1>Hoşgeldiniz 👋</h1>
+    <h1>{{ 'home.welcome' | translate }} 👋</h1>
   <p class="subtitle">
-    Intern Tracker Application'a hoşgeldiniz. Hızlı işlemler için aşağıdan seçim yapabilirsiniz.
+    {{ 'home.subtitle' | translate }}
   </p>
 </div>
-
-  <nav class="quick-actions" aria-label="Hızlı işlemler">
-    <a class="action-card" routerLink="/dashboard/intern-form" aria-label="Yeni Stajyer Ekle">
+  <nav class="quick-actions" [attr.aria-label]="'home.quickActions' | translate">
+    <a class="action-card" routerLink="/dashboard/intern-form" [attr.aria-label]="'home.addIntern' | translate">
       <mat-icon aria-hidden="true">person_add</mat-icon>
-      <h3>Yeni Stajyer Ekle</h3>
-      <p>Sisteme yeni stajyer kaydı oluşturun.</p>
+      <h3>{{ 'home.cards.addIntern.title' | translate }}</h3>
+      <p>{{ 'home.cards.addIntern.desc' | translate }}</p>
     </a>
 
-    <a class="action-card" routerLink="/dashboard/assign-project" aria-label="Proje Ata">
+    <a class="action-card" routerLink="/dashboard/assign-project" [attr.aria-label]="'home.assignProject' | translate">
       <mat-icon aria-hidden="true">assignment</mat-icon>
-      <h3>Proje Ata</h3>
-      <p>Stajyerlere görev ve proje atayın.</p>
+      <h3>{{ 'home.cards.assign.title' | translate }}</h3>
+      <p>{{ 'home.cards.assign.desc' | translate }}</p>
     </a>
 
     
-   <a class="action-card" routerLink="/dashboard/evaluations" aria-label="Değerlendirme">
+   <a class="action-card" routerLink="/dashboard/evaluations" [attr.aria-label]="'home.evaluation' | translate">
   <mat-icon aria-hidden="true">bar_chart</mat-icon>
-  <h3>Değerlendirme</h3>
-  <p>Performans puanlarını girin ve inceleyin.</p>
+  <h3>{{ 'home.cards.evaluation.title' | translate }}</h3>
+  <p>{{ 'home.cards.evaluation.desc' | translate }}</p>
 </a>
 
   </nav>

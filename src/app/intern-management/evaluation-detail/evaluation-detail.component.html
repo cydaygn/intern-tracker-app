@@ -1,66 +1,46 @@
-<h2>Stajyer Değerlendirmesi</h2>
-
+<h2>{{ 'evaluation.title' | translate }}</h2>
 <select
   id="stajyerSelect"
   [(ngModel)]="secilenStajyerId"
-  (change)="onInternChange()"
->
-  <option [ngValue]="null" disabled>-- Stajyer seçiniz --</option>
+  (change)="onInternChange()">
+  <option [ngValue]="null" disabled>-- {{ 'evaluation.selectPlaceholder' | translate }} --</option>
   <option *ngFor="let i of interns" [ngValue]="i.id">
     {{ i.name }}
   </option>
 </select>
-
-
-
-<div *ngIf="loading" class="muted" style="margin: 8px 0">Yükleniyor...</div>
-
+<div *ngIf="loading" class="muted" style="margin: 8px 0">{{ 'common.loading' | translate }}</div>
 <div class="left">
-  <h3>Mevcut Notlar</h3>
-
+  <h3>{{ 'evaluation.currentNotes' | translate }}</h3>
   <ul class="note-list">
     <li class="note-row" *ngFor="let label of etikets">
       <div class="note-head">
         <span class="note-label">{{ label }}</span>
-
         <span class="score-badge"
               [ngClass]="scoreClass(label)">
           {{ scoreValue(label) }}
         </span>
       </div>
-
       <div class="progress">
         <div class="progress-fill"
              [ngClass]="scoreClass(label)"
              [style.width.%]="scoreValue(label)">
-        </div>
-      </div>
-    </li>
-  </ul>
-</div>
-
-
+             </div></div>  </li></ul></div>
   <div class="right">
-    <h3>Yeni Değerlendirme Ekle / Güncelle</h3>
-
-    <label for="etiketSelect">Değerlendirme Kriteri:</label>
+    <h3>{{ 'evaluation.addOrUpdate' | translate }}</h3>
+    <label for="etiketSelect">{{ 'evaluation.criteria' | translate }}:</label>
     <select id="etiketSelect" [(ngModel)]="yeniNot.etiket">
-      <option [ngValue]="''" disabled>Seçiniz</option>
-      <option *ngFor="let e of etikets" [value]="e">{{ e }}</option>
+      <option [ngValue]="''" disabled>{{ 'common.select' | translate }}</option>
+      <option *ngFor="let e of etikets; let i = index" [value]="e">
+        {{ ('evaluation.labels.' + (['technical','communication','teamwork','responsibility','timeManagement'][i])) | translate }}
+      </option>
     </select>
-
     <br /><br />
-
-    <label for="puanInput">Puan (0–100):</label>
+    
+    <label for="puanInput">{{ 'evaluation.score' | translate }} (0–100):</label>
     <input id="puanInput" type="number" [(ngModel)]="yeniNot.puan" min="0" max="100" />
-
     <br /><br />
-
-    <button (click)="kaydet()">Kaydet</button>
+    <button (click)="kaydet()">{{ 'common.save' | translate }}</button>
   </div>
-
-
-
 <div style="margin-top: 20px;">
   <canvas #grafikCanvas width="520" height="260"></canvas>
 </div>

@@ -1,6 +1,30 @@
 <nav class="navbar" data-tauri-drag-region>
-  <button class="menu-button" (click)="menuToggle.emit()" data-tauri-drag-region="false">
+  <button class="menu-button" (click)="menuToggle.emit()" data-tauri-drag-region="false" [attr.aria-label]="'navbar.menu' | translate">
     <mat-icon>menu</mat-icon>
   </button>
-  <h1>Intern Tracker Uygulaması</h1>
+
+  <h1>{{ 'app.title' | translate }}</h1>
+  <div class="spacer"></div>
+
+  <div class="lang-switch" data-tauri-drag-region="false">
+    <button class="win-btn" [class.active]="currentLang==='tr'" (click)="switchLanguage('tr')" aria-label="Türkçe">
+      TR
+    </button>
+    <button class="win-btn" [class.active]="currentLang==='en'" (click)="switchLanguage('en')" aria-label="English">
+      EN
+    </button>
+  </div>
+
+  <div class="window-controls" data-tauri-drag-region="false">
+    <button class="win-btn" [attr.aria-label]="'navbar.minimize' | translate" (click)="minimize()">
+      <mat-icon>remove</mat-icon>
+    </button>
+    <button class="win-btn" [attr.aria-label]="'navbar.maximize' | translate" (click)="toggleMaximize()">
+   
+      <mat-icon>{{ isMaximized ? 'filter_none' : 'crop_square' }}</mat-icon>
+    </button>
+    <button class="win-btn close" [attr.aria-label]="'navbar.close' | translate" (click)="close()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
 </nav>

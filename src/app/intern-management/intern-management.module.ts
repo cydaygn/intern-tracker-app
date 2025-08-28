@@ -19,6 +19,7 @@ import { InternListComponent } from './intern-list/intern-list.component';
 import { InternFormComponent } from './intern-form/intern-form.component';
 import { AssignProjectComponent } from './assign-project/assign-project.component';
 import { MatIconModule } from '@angular/material/icon';
+import { TranslateModule } from '@ngx-translate/core';
 @NgModule({
   declarations: [
    EvaluationsListComponent,
@@ -42,6 +43,7 @@ import { MatIconModule } from '@angular/material/icon';
     MatInputModule,
     MatIconModule,   
       MatSelectModule,
+    TranslateModule,
   ],
   exports: [
     InternFormComponent 

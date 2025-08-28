@@ -177,16 +177,14 @@ fn get_migrations() -> Vec<Migration> {
 // --- PATH & DB ---
 
 fn app_db_path(handle: &AppHandle) -> Result<PathBuf, String> {
-    let app_dir = handle
-        .path()
-        .app_data_dir()
-        .map_err(|e| format!("app_data_dir alınamadı: {e}"))?;
+    let documents = handle.path().document_dir()
+        .map_err(|e| format!("document_dir alınamadı: {e}"))?;
+    let app_dir = documents.join("InternTracker");
     fs::create_dir_all(&app_dir)
         .map_err(|e| format!("app_data_dir oluşturulamadı: {e}"))?;
     Ok(app_dir.join("interns.db"))
 }
 
-// MASAÜSTÜ kökü: Desktop\InternTracker\{CV,interns}
 fn storage_root(handle: &AppHandle) -> Result<PathBuf, String> {
     let desktop = handle.path().desktop_dir().map_err(|e| e.to_string())?;
     let root = desktop.join("InternTracker");
@@ -195,7 +193,7 @@ fn storage_root(handle: &AppHandle) -> Result<PathBuf, String> {
     Ok(root)
 }
 
-// Türkçe karakterleri sadeleştirerek klasör adı üret
+
 fn slug_tr(s: &str) -> String {
     let mut out = String::new();
     for ch in s.chars() {
@@ -317,19 +315,17 @@ fn open_conn(handle: &AppHandle) -> Result<Connection, String> {
     Ok(conn)
 }
 
-// --- Dosyaları MASAÜSTÜ'ne yaz ve DB yollarını güncelle ---
+
 
 fn persist_files_to_disk(handle: &AppHandle, conn: &Connection, id: i64, i: &InternPayload) -> Result<(), String> {
     let person = person_dir(handle, id, &i.first_name, &i.last_name)?;
     let root   = storage_root(handle)?;
-
-    // CV
     if let Some(ref bytes) = i.cv_blob {
         let fname = i.cv_name.as_deref().unwrap_or("cv.bin");
         let fpath = person.join(fname);
         fs::write(&fpath, bytes).map_err(|e| format!("CV yazılamadı: {e}"))?;
 
-        // İsteğe bağlı: CV klasörüne kopya
+        
         let ext = Path::new(fname).extension().and_then(|e| e.to_str()).unwrap_or("bin");
         let cv_copy = root.join("CV").join(format!("{}_{}_{}.{}", id, slug_tr(&i.first_name), slug_tr(&i.last_name), ext));
         let _ = fs::copy(&fpath, &cv_copy);
@@ -339,8 +335,6 @@ fn persist_files_to_disk(handle: &AppHandle, conn: &Connection, id: i64, i: &Int
             params![fpath.to_string_lossy(), i.cv_name, i.cv_mime, id],
         ).map_err(|e| e.to_string())?;
     }
-
-    // Fotoğraf
     if let Some(ref bytes) = i.photo_blob {
         let fname = i.photo_name.as_deref().unwrap_or("photo.bin");
         let fpath = person.join(fname);
@@ -444,18 +438,18 @@ fn add_intern(handle: AppHandle, intern: InternPayload) -> Result<i64, String> {
             &intern.school,
             &intern.department,
             &intern.start_date,
-            intern.end_date.as_deref(),         // Option<&str>
+            intern.end_date.as_deref(),         
             &intern.status,
             &intern.contact,
             &intern.email,
-            intern.cv_path.as_deref(),          // Option<&str>
-            intern.photo_path.as_deref(),       // Option<&str>
-            intern.cv_name.as_deref(),          // Option<&str>
-            intern.cv_mime.as_deref(),          // Option<&str>
-            intern.cv_blob.as_deref(),          // Option<&[u8]>
-            intern.photo_name.as_deref(),       // Option<&str>
-            intern.photo_mime.as_deref(),       // Option<&str>
-            intern.photo_blob.as_deref(),       // Option<&[u8]>
+            intern.cv_path.as_deref(),          
+            intern.photo_path.as_deref(),       
+            intern.cv_name.as_deref(),         
+            intern.cv_mime.as_deref(),          
+            intern.cv_blob.as_deref(),          
+            intern.photo_name.as_deref(),       
+            intern.photo_mime.as_deref(),       
+            intern.photo_blob.as_deref(),       
         ],
     ).map_err(|e| e.to_string())?;
 

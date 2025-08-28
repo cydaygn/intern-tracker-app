@@ -1,31 +1,29 @@
-<h2 class="title">Stajyer Değerlendirmeleri</h2>
+<h2 class="title">{{ 'evaluation.listTitle' | translate }}</h2>
 
-<div *ngIf="isLoading" class="status loading">Yükleniyor…</div>
+<div *ngIf="isLoading" class="status loading">{{ 'common.loading' | translate }}</div>
 <div *ngIf="errorMsg" class="status error">{{ errorMsg }}</div>
 
 <div class="intern-list" *ngIf="!isLoading && !errorMsg && interns.length > 0">
   <div class="intern-card" *ngFor="let intern of interns">
     <div class="left">
       <div class="name-row">
-        <span class="intern-name">{{ intern.name || '(İsimsiz)' }}</span>
+        <span class="intern-name">{{ intern.name || '(' + ('common.unnamed' | translate) + ')' }}</span>
        <span class="badge"
       [ngClass]="{
         'badge-active': intern.status?.toLowerCase() === 'aktif',
         'badge-done': intern.status?.toLowerCase() === 'tamamlandı',
         'badge-passive': intern.status?.toLowerCase() === 'pasif'
       }">
-  {{ intern.status || 'durum yok' }}
+  {{ intern.status || ('common.noStatus' | translate) }}
 </span>
-
       </div>
     <div class="right">
       <button mat-raised-button color="primary" (click)="showDetails(intern.id)">
-        Detay
+        {{ 'common.details' | translate }}
       </button>
     </div>
   </div>
 </div>
-
 <div *ngIf="!isLoading && !errorMsg && interns.length === 0" class="status empty">
-  Kayıtlı stajyer bulunamadı. Lütfen önce bir stajyer ekleyin.
+  {{ 'evaluation.noInternsHelp' | translate }}
 </div>

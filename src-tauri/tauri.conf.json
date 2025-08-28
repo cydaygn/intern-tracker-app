@@ -6,24 +6,28 @@
   "build": {
     "beforeDevCommand": "npm run start",
     "devUrl": "http://localhost:1420",
-    "beforeBuildCommand": "npm run build",
+    "beforeBuildCommand": "ng build --configuration=production --base-href ./",
     "frontendDist": "../dist/interntracker"
   },
   "app": {
     "withGlobalTauri": true,
     "windows": [
       {
+        "title": "Intern Tracker",
         "decorations": false,
-        "title": " ",
         "width": 800,
         "height": 600,
         "resizable": true,
-        "fullscreen": false
+        "fullscreen": false,
+        "devtools": true,
+        "maximizable": true,
+        "minimizable": true,
+         "minWidth": 900,
+      "minHeight": 600
       }
     ],
     "security": {
-       
-      "csp": "default-src 'self' asset:; script-src 'self' 'unsafe-inline' 'unsafe-eval' asset:; style-src 'self' 'unsafe-inline' asset:; img-src 'self' data: blob: asset:; font-src 'self' data: asset:; connect-src 'self' tauri: https:; media-src 'self' asset:; frame-src 'self' asset:;"
+      "csp": null
     }
   },
   "bundle": {
@@ -35,7 +39,23 @@
       "icons/128x128@2x.png",
       "icons/icon.icns",
       "icons/icon.ico"
-    ]
+    ],
+    "windows": {
+      "allowDowngrades": false,
+      "webviewInstallMode": {
+        "type": "downloadBootstrapper",
+        "silent": true
+      },
+      "nsis": {
+        "compression": "lzma",
+        "displayLanguageSelector": true,
+        "installMode": "currentUser",
+        "startMenuFolder": "InternTracker",
+        "installerIcon": "icons/icon.ico",
+        "minimumWebview2Version": null,
+        "customLanguageFiles": null
+      }
+    }
   },
   "plugins": {
     "sql": { "preload": ["sqlite:interns.db"] }

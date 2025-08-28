@@ -1,67 +1,47 @@
 <div class="formGenel">
-  <h2>Proje Atama Modülü</h2>
-
-
+  <h2>{{ 'assign.title' | translate }}</h2>
 <form  (submit)="$event.preventDefault()" novalidate>
    <mat-form-field appearance="fill" class="full-width">
-  <mat-label>Stajyer Seçin</mat-label>
+  <mat-label>{{ 'assign.selectIntern' | translate }}</mat-label>
   <mat-select [(ngModel)]="selectedIntern_id" name="intern" required>
-    <mat-option [value]="null" disabled>-- Stajyer seçiniz --</mat-option>
-    <mat-option *ngFor="let intern of interns" [value]="intern.id">
-      {{ intern.first_name }} {{ intern.last_name }}
+    <mat-option [value]="null" disabled>-- {{ 'assign.selectInternPlaceholder' | translate }} --</mat-option>
+    <mat-option *ngFor="let intern of interns" [value]="intern.id"> {{ intern.first_name }} {{ intern.last_name }}
     </mat-option>
   </mat-select>
 </mat-form-field>
-
-
   <div *ngIf="!isLoading && interns.length === 0" style="margin:6px 0;color:#888;">
-    (Kayıtlı stajyer yok)
+    ({{ 'assign.noInterns' | translate }})
   </div>
-  <div *ngIf="isLoading" style="margin:6px 0;color:#888;">Yükleniyor…</div>
+  <div *ngIf="isLoading" style="margin:6px 0;color:#888;">{{ 'common.loading' | translate }}</div>
   <div *ngIf="errorMsg" style="margin:6px 0;color:#c00;">{{ errorMsg }}</div>
-
   <br /><br />
-
-  <label>
-    Proje Türü Seçin:
+  <label> {{ 'assign.selectProjectType' | translate }}:
     <select [(ngModel)]="selectedProjectType" name="projectType" required>
-      <option [ngValue]="null" disabled>-- Proje türü seçiniz --</option>
-      <option *ngFor="let type of projectTypes" [ngValue]="type">
-        {{ type }}
-      </option>
+      <option [ngValue]="null" disabled>-- {{ 'assign.selectProjectTypePlaceholder' | translate }} --</option>
+      <option *ngFor="let type of projectTypes" [ngValue]="type"> {{ ('assign.projectTypes.' + type) | translate }}   </option>
     </select>
   </label>
-
   <br /><br />
-
-  <label>
-    Görev Açıklaması:
+  <label> {{ 'assign.taskDescription' | translate }}:
     <textarea [(ngModel)]="taskDescription" name="taskDescription" rows="3" required></textarea>
   </label>
-
-  
 <input
   #pdfInput
   type="file"
   accept=".pdf"
   hidden
-  (change)="onFileSelected($event)"
-/>
-
+  (change)="onFileSelected($event)"/>
 <div class="pdf-select-wrapper">
-  <button type="button" class="btn-select" (click)="openPdfWithTauri()">📎 Dosya Seç</button>
-
+  <button type="button" class="btn-select" (click)="openPdfWithTauri()">📎 {{ 'assign.selectFile' | translate }}</button>
   <ng-container *ngIf="pdfDosyasi">
     <span class="selected-file" [title]="selectedFileLabel">{{ selectedFileLabel }}</span>
-    <button type="button" class="btn-clear" (click)="clearSelectedFile()" aria-label="Seçimi temizle">×</button>
+    <button type="button" class="btn-clear" (click)="clearSelectedFile()" [attr.aria-label]="'assign.clearSelection' | translate">×</button>
   </ng-container>
 </div>
-
 <br /><br />
-
   <br /><br />
  <mat-form-field appearance="fill" class="date-field">
-    <mat-label>Teslim Tarihi *</mat-label>
+    <mat-label>{{ 'assign.dueDate' | translate }} *</mat-label>
     <input
       matInput
       [matDatepicker]="pickerDue"
@@ -73,25 +53,19 @@
     <mat-datepicker-toggle matSuffix [for]="pickerDue"></mat-datepicker-toggle>
     <mat-datepicker #pickerDue></mat-datepicker>
   </mat-form-field>
-
-
-
   <br /><br />
-
  <mat-form-field appearance="fill" class="full-width">
-  <mat-label>Durum</mat-label>
+  <mat-label>{{ 'assign.status' | translate }}</mat-label>
   <mat-select [(ngModel)]="status" name="status">
-    <mat-option value="Planned">Planlandı</mat-option>
-    <mat-option value="In Progress">Devam Ediyor</mat-option>
-    <mat-option value="Completed">Tamamlandı</mat-option>
+    <mat-option value="Planned">{{ 'assign.status_planned' | translate }}</mat-option>
+    <mat-option value="In Progress">{{ 'assign.status_in_progress' | translate }}</mat-option>
+    <mat-option value="Completed">{{ 'assign.status_completed' | translate }}</mat-option>
   </mat-select>
 </mat-form-field>
-
   <br /><br />
 <div class="assign-actions">
-  <button type="button" (click)="ata()" [disabled]="isLoading">Projeyi Ata</button>
-  <button type="button" (click)="cancelAssign()">İptal</button>
+  <button type="button" (click)="ata()" [disabled]="isLoading">{{ 'assign.assignProject' | translate }}</button>
+  <button type="button" (click)="cancelAssign()">{{ 'common.cancel' | translate }}</button>
 </div>
 </form>
-
 </div>

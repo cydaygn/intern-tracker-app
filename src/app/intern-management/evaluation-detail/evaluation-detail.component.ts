@@ -1,7 +1,9 @@
 import {Component, ElementRef, OnInit, ViewChild, AfterViewInit, NgZone, ChangeDetectorRef} from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
 import { DatabaseService, InternOption, Evaluation,} from '../../services/database.service';
 import {Chart,BarController,BarElement,CategoryScale, LinearScale,Tooltip,  Legend,} from 'chart.js';
+import { TranslateService } from '@ngx-translate/core';
 
 Chart.register(BarController, BarElement, CategoryScale, LinearScale, Tooltip, Legend);
 
@@ -17,6 +19,13 @@ export class EvaluationDetailComponent implements OnInit, AfterViewInit {
   secilenStajyerId: number | null = null;
 
   etikets = ['Teknik Bilgi', 'İletişim', 'Takım Çalışması', 'Sorumluluk', 'Zaman Yönetimi'];
+  private etiketsKeys = [
+    'evaluation.labels.technical',
+    'evaluation.labels.communication',
+    'evaluation.labels.teamwork',
+    'evaluation.labels.responsibility',
+    'evaluation.labels.timeManagement'
+  ];
 
   evaluations: Evaluation[] = [];
 
@@ -29,11 +38,18 @@ export class EvaluationDetailComponent implements OnInit, AfterViewInit {
     private route: ActivatedRoute,
     private db: DatabaseService,
     private zone: NgZone,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private snackBar: MatSnackBar,
+    private translate: TranslateService
   ) {}
 
   async ngOnInit(): Promise<void> {
     await this.db.ensureInitialized();
+    this.applyTranslations();
+    this.translate.onLangChange.subscribe(() => {
+      this.applyTranslations();
+      this.cizGrafik();
+    });
     await this.loadInterns();
 
     const fromRoute = Number(this.route.snapshot.paramMap.get('id'));
@@ -52,10 +68,9 @@ export class EvaluationDetailComponent implements OnInit, AfterViewInit {
     this.cizGrafik();
   }
   private titleCaseSpaces(text: string): string {
-  return (text ?? '').replace(/(^|\s)(\p{L})/gu, (_, space, ch) =>
-    space + ch.toLocaleUpperCase('tr-TR')
-  );
-}
+    const lower = (text ?? '').toLocaleLowerCase('tr-TR');
+    return lower.replace(/(^|\s)(\p{L})/gu, (_, space, ch) => space + ch.toLocaleUpperCase('tr-TR'));
+  }
 private async loadInterns() {
   this.loading = true;
   try {
@@ -63,8 +78,10 @@ private async loadInterns() {
     this.zone.run(() => {
       this.interns = (list ?? []).map(i => ({
         ...i,
+        // Sadece ad-soyadı title-case yap
         name: this.titleCaseSpaces(i.name ?? ''),
-        status: i.status ? this.titleCaseSpaces(i.status) : i.status
+        // Diğer alanlar (ör. status) olduğu gibi kalsın
+        status: i.status
       }));
     });
     this.cdr.detectChanges();
@@ -128,25 +145,45 @@ private async loadInterns() {
   }
 
   async kaydet() {
-    if (!this.secilenStajyerId) { 
-      alert('Lütfen bir stajyer seçiniz.'); 
-      return; 
+    if (!this.secilenStajyerId) {
+      this.snackBar.open(this.translate.instant('evaluation.messages.selectIntern'), this.translate.instant('common.ok'), {
+        duration: 3000,
+        panelClass: ['warning-snackbar'],
+        horizontalPosition: 'center',
+        verticalPosition: 'top'
+      });
+      return;
     }
-    if (!this.yeniNot.etiket) { 
-      alert('Lütfen bir kriter seçiniz.'); 
-      return; 
+    if (!this.yeniNot.etiket) {
+      this.snackBar.open(this.translate.instant('evaluation.messages.selectCriteria'), this.translate.instant('common.ok'), {
+        duration: 3000,
+        panelClass: ['warning-snackbar'],
+        horizontalPosition: 'center',
+        verticalPosition: 'top'
+      });
+      return;
     }
 
     const intern_id = Number(this.secilenStajyerId);
     const puan = Number(this.yeniNot.puan);
     
     if (isNaN(intern_id) || intern_id <= 0) {
-      alert('Geçersiz stajyer seçimi.');
+      this.snackBar.open(this.translate.instant('evaluation.messages.invalidIntern'), this.translate.instant('common.ok'), {
+        duration: 3000,
+        panelClass: ['error-snackbar'],
+        horizontalPosition: 'center',
+        verticalPosition: 'top'
+      });
       return;
     }
     
     if (isNaN(puan) || puan < 0 || puan > 100) {
-      alert('Puan 0–100 arası olmalıdır.');
+      this.snackBar.open(this.translate.instant('evaluation.messages.scoreRange'), this.translate.instant('common.ok'), {
+        duration: 3000,
+        panelClass: ['warning-snackbar'],
+        horizontalPosition: 'center',
+        verticalPosition: 'top'
+      });
       return;
     }
 
@@ -163,7 +200,12 @@ private async loadInterns() {
       console.log('Evaluation saved successfully');
     } catch (error) {
       console.error('Error saving evaluation:', error);
-      alert('Değerlendirme kaydedilirken hata oluştu: ' + error);
+      this.snackBar.open(this.translate.instant('evaluation.messages.saveError'), this.translate.instant('common.ok'), {
+        duration: 5000,
+        panelClass: ['error-snackbar'],
+        horizontalPosition: 'center',
+        verticalPosition: 'top'
+      });
     }
   }
 
@@ -201,7 +243,7 @@ private async loadInterns() {
       this.chart.destroy();
     }
 
-    const labels = this.etikets;
+    const labels = this.translateLabels();
     const data = labels.map(l => (this.getScoreFor(l) ?? 0));
 
     console.log('Chart data:', { labels, data });
@@ -211,7 +253,7 @@ private async loadInterns() {
       data: {
         labels,
         datasets: [{
-          label: 'Puan',
+          label: this.translate.instant('evaluation.score'),
           data,
           backgroundColor: grad,
           borderColor: '#4b8cff',
@@ -260,5 +302,13 @@ private async loadInterns() {
         }
       }
     });
+  }
+
+  private applyTranslations() {
+    // Keep canonical Turkish tags for matching DB values, but show translated labels on chart/UI
+  }
+
+  private translateLabels(): string[] {
+    return this.etikets.map((_, idx) => this.translate.instant(this.etiketsKeys[idx]));
   }
 }

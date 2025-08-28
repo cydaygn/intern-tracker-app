@@ -9,8 +9,8 @@
 }
 
 html, body {
-  overflow-y: hidden;
-  background-color: #f5f6fa; /* Arka planı diğer sayfalarla uyumlu hale getir */
+  overflow-y: auto;
+  background-color: #f5f6fa; 
 }
 
 .total-count {
@@ -152,3 +152,54 @@ table {
     grid-template-columns: repeat(2, 1fr);
   }
 }
+.list-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; 
+  gap: 12px;
+  margin: 8px 0 12px;
+}
+.update-cta {
+  
+  padding: 8px 16px;
+  border-radius: 12px;
+
+  
+  background: linear-gradient(90deg, #4b6cb7, #182848) !important;
+  color: #fff !important;
+  font-weight: 800;              
+  text-transform: none;
+  letter-spacing: .2px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+
+  
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: none;
+
+  
+  .mdc-button__label { display: inline-flex; align-items: center; gap: 8px; }
+  mat-icon { font-size: 18px; line-height: 1; opacity: .95; }
+
+  
+  transition: transform .15s ease, box-shadow .15s ease, filter .15s ease;
+  &:hover {
+    transform: translateY(-1px);
+    filter: brightness(1.05);
+    box-shadow: 0 6px 14px rgba(0,0,0,0.12);
+  }
+  &:active {
+    transform: translateY(0);
+    box-shadow: 0 3px 8px rgba(0,0,0,0.10);
+  }
+  &:focus-visible {
+    outline: none;
+    box-shadow:
+      0 0 0 3px rgba(255,255,255,.9),
+      0 0 0 6px rgba(75,108,183,.35),
+      0 4px 12px rgba(0,0,0,0.08);
+  }
+}
+
+

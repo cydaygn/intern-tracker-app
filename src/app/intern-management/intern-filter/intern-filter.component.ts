@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-intern-filter',
@@ -14,8 +15,9 @@ export class InternFilterComponent {
   projectStatusFilter: string = '';
   tagFilter: string = '';
 
-  projectStatuses: string[] = ['Aktif', 'Tamamlandı', 'Beklemede'];
-  tags: string[] = ['Frontend', 'Backend', 'Fullstack'];
+  // Use stable keys; UI renders translated labels
+  projectStatuses: string[] = ['active', 'completed', 'pending'];
+  tags: string[] = ['frontend', 'backend', 'fullstack'];
 
   @Output() filterChanged = new EventEmitter<{
     name: string;
@@ -42,5 +44,23 @@ export class InternFilterComponent {
     this.projectStatusFilter = '';
     this.tagFilter = '';
     this.onFilterChange();
+  }
+
+  constructor(private translate: TranslateService) {}
+
+  getStatusLabel(key: string): string {
+    return this.translate.instant('filters.statuses.' + key);
+  }
+
+  getTagLabel(key: string): string {
+    return this.translate.instant('filters.tags.' + key);
+  }
+
+  getPeriodLabel(value: string): string {
+    // value format expected: YYYY-SEASONKEY
+    if (!value) return '';
+    const [year, seasonKey] = value.split('-');
+    const season = this.translate.instant('filters.seasons.' + seasonKey);
+    return `${year} ${season}`;
   }
 }

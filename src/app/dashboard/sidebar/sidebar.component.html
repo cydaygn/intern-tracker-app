@@ -5,7 +5,7 @@
        [routerLinkActiveOptions]="{ exact: true }"
        routerLinkActive="active-link"
        (click)="onLinkClick()">
-      <mat-icon>home</mat-icon><span>Anasayfa</span>
+      <mat-icon>home</mat-icon><span>{{ 'sidebar.home' | translate }}</span>
     </a>
   </li>
 
@@ -14,7 +14,7 @@
        routerLink="/dashboard/intern-list"
        routerLinkActive="active-link"
        (click)="onLinkClick()">
-      <mat-icon>group</mat-icon><span>Stajyerler</span>
+      <mat-icon>group</mat-icon><span>{{ 'sidebar.interns' | translate }}</span>
     </a>
   </li>
 
@@ -23,7 +23,7 @@
        routerLink="/dashboard/intern-form"
        routerLinkActive="active-link"
        (click)="onLinkClick()">
-      <mat-icon>person_add</mat-icon><span>Yeni Stajyer Ekle</span>
+      <mat-icon>person_add</mat-icon><span>{{ 'sidebar.addIntern' | translate }}</span>
     </a>
   </li>
 
@@ -32,7 +32,7 @@
        routerLink="/dashboard/assign-project"
        routerLinkActive="active-link"
        (click)="onLinkClick()">
-      <mat-icon>assignment</mat-icon><span>Proje Atama</span>
+      <mat-icon>assignment</mat-icon><span>{{ 'sidebar.assignProject' | translate }}</span>
     </a>
   </li>
 
@@ -41,14 +41,14 @@
        routerLink="/dashboard/evaluations"
        routerLinkActive="active-link"
        (click)="onLinkClick()">
-      <mat-icon>star_rate</mat-icon><span>Değerlendirmeler</span>
+      <mat-icon>star_rate</mat-icon><span>{{ 'sidebar.evaluations' | translate }}</span>
     </a>
   </li>
 <li class="sidebar-exit">
-    <button class="sidebar-btn" (click)="exitApp()">
-      <mat-icon>exit_to_app</mat-icon><span>Çıkış</span>
-    </button>
-  </li>
-  
-  
-</ul>
+  <a class="sidebar-btn"
+     href
+     (click)="exitApp(); $event.preventDefault()">
+    <mat-icon>exit_to_app</mat-icon><span>{{ 'sidebar.exit' | translate }}</span>
+  </a>
+</li>
+
