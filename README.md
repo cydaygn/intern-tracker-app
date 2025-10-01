@@ -1,4 +1,5 @@
 Tauri + Angular
+
 Kurumsal staj süreçlerini tek bir masaüstü uygulamasında yönetmek için geliştirilmiş, Angular 17 + Tauri v2 (Rust) mimarisine sahip, offline/yerel SQLite (SQLCipher) veritabanı kullanan çapraz platform (Windows/macOS/Linux) bir uygulama.
 
 . Stajyer kayıtları (kişisel bilgiler, okul, dönem, başlangıç/bitiş)
