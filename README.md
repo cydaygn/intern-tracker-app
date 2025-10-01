@@ -1,4 +1,4 @@
-Tauri + Angular
+#Tauri + Angular
 
 Kurumsal staj süreçlerini tek bir masaüstü uygulamasında yönetmek için geliştirilmiş, Angular 17 + Tauri v2 (Rust) mimarisine sahip, offline/yerel SQLite (SQLCipher) veritabanı kullanan çapraz platform (Windows/macOS/Linux) bir uygulama.
 
@@ -42,11 +42,12 @@ UI bağımlılıkları npm install
 
 Rust toolchain (yüklü değilse) curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh rustup update
 
-Tauri + Angular geliştirme modu
+#Tauri + Angular geliştirme modu
 npm run tauri dev
 
 Build & Paketleme
 npm run build
 
 npm run tauri build
+
 [VS Code](https://code.visualstudio.com/) + [Tauri](https://marketplace.visualstudio.com/items?itemName=tauri-apps.tauri-vscode) + [rust-analyzer](https://marketplace.visualstudio.com/items?itemName=rust-lang.rust-analyzer) + [Angular Language Service](https://marketplace.visualstudio.com/items?itemName=Angular.ng-template).
