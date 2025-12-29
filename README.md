@@ -1,53 +1,62 @@
-#Tauri + Angular
+# Intern Tracker App
 
 Kurumsal staj süreçlerini tek bir masaüstü uygulamasında yönetmek için geliştirilmiş, Angular 17 + Tauri v2 (Rust) mimarisine sahip, offline/yerel SQLite (SQLCipher) veritabanı kullanan çapraz platform (Windows/macOS/Linux) bir uygulama.
+## Özellikler
 
-. Stajyer kayıtları (kişisel bilgiler, okul, dönem, başlangıç/bitiş)
+### Stajyer Yönetimi
+- Stajyer kayıtları (kişisel bilgiler, okul, dönem, başlangıç/bitiş)
+- CV / fotoğraf yükleme ve indirme
 
-. CV/Fotoğraf yükleme ve indirme
+### Görev & Performans
+- Proje / görev atama
+- Durum takibi (Planned / In Progress / Completed)
+- Not & değerlendirme (0–100 rubrik)
+- Dönemlik performans grafikleri
 
-. Proje/görev atama, durum takibi (Planned/In Progress/Completed)
+### Verimlilik
+- Hızlı arama ve filtreleme
+- Kaydedilmiş görünümler (örn. “2025 Yaz Dönemi”)
 
-. Not & değerlendirme, 0–100 puanlı rubrik, dönemlik performans grafiği
+### Sistem & Güvenlik
+- Offline çalışma
+- SQLCipher ile şifreli yerel veritabanı
+- Otomatik yedekleme (JSON / SQL → ZIP)
+- Disk kotası yönetimi
+- Son tarih bildirimleri
+- “Not girilmemiş stajyer” hatırlatıcıları
 
-. Hızlı arama/filtreleme, kaydedilmiş görünümler (örn. “2025 Yaz Dönemi”)
+## Mimari & Tasarım Kararları
 
-. Otomatik yedekleme (JSON/SQL → ZIP), disk kotası yöneti mi
+- **Angular 17**: Büyük veri formları ve state yönetimi için
+- **Tauri v2 (Rust)**: Electron’a göre daha düşük bellek kullanımı
+- **SQLite + SQLCipher**: Offline kullanım ve veri güvenliği
+- **RxJS + State Management**: Reaktif ve ölçeklenebilir UI
+- **Chart.js / pdfmake**: Raporlama ve çıktı alma
 
-. Son tarih bildirimi ve “not girilmemiş stajyer” hatırlatıcısı
 
-UI: Angular 17, Angular Material, RxJS
+#### Anasayfa 
+<img width="500" height="742" alt="image" src="https://github.com/user-attachments/assets/4b7a408a-3096-4eb3-a444-24035b6d267e" />
 
-Desktop: Tauri v2, Rust 1.78+
+#### Değerlendirme 
+<img width="500" height="1006" alt="image" src="https://github.com/user-attachments/assets/3ac1ea93-c302-44a3-9586-1744b8e24d52" />
 
-DB: embedded SQLite (SQLCipher)
 
-State: NGXS/Akita (tercih)
+## Kurulum
 
-Chart/Rapor: Chart.js, pdfmake
+### Gereksinimler
+- Node.js LTS (≥ 20)
+- Rust (stable) & Cargo
+- Visual Studio Build Tools 2022 (Windows)
+- WebView2 Runtime
 
-Gereksinimler
-Node.js LTS (≥ 20) ve npm
+### Kurulum Adımları
+```bash
+git clone https://github.com/cydaygn/intern-tracker-app.git
+cd intern-tracker-app
+npm install
+````
 
-Rust (stable) ve cargo (rustup ile)
-
-Visual Studio Build Tools 2022 (C++ derleme bileşenleri)
-
-WebView2 Runtime (Edge ile gelir)
-
-Kurulum
-Depoyu klonla git clone cd intern-tracker-application
-
-UI bağımlılıkları npm install
-
-Rust toolchain (yüklü değilse) curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh rustup update
-
-#Tauri + Angular geliştirme modu
-npm run tauri dev
-
-Build & Paketleme
-npm run build
-
-npm run tauri build
+#### Geliştirme Modu
+ npm run tauri dev
 
 [VS Code](https://code.visualstudio.com/) + [Tauri](https://marketplace.visualstudio.com/items?itemName=tauri-apps.tauri-vscode) + [rust-analyzer](https://marketplace.visualstudio.com/items?itemName=rust-lang.rust-analyzer) + [Angular Language Service](https://marketplace.visualstudio.com/items?itemName=Angular.ng-template).
