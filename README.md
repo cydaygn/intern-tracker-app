@@ -35,10 +35,10 @@ Kurumsal staj süreçlerini tek bir masaüstü uygulamasında yönetmek için ge
 
 
 #### Anasayfa 
-<img width="500" height="742" alt="image" src="https://github.com/user-attachments/assets/4b7a408a-3096-4eb3-a444-24035b6d267e" />
+<img width="400" height="642" alt="image" src="https://github.com/user-attachments/assets/4b7a408a-3096-4eb3-a444-24035b6d267e" />
 
 #### Değerlendirme 
-<img width="500" height="1006" alt="image" src="https://github.com/user-attachments/assets/3ac1ea93-c302-44a3-9586-1744b8e24d52" />
+<img width="400" height="642" alt="image" src="https://github.com/user-attachments/assets/3ac1ea93-c302-44a3-9586-1744b8e24d52" />
 
 
 ## Kurulum
